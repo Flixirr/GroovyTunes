@@ -1,4 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {
+    Link
+  } from "react-router-dom";
 
 class Login extends Component {
 
@@ -35,6 +38,7 @@ class Login extends Component {
                         onChange={this.inputChanged}></input>
                 <br />
                 <button onClick={ this.login }>Login</button>
+                <p class="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
             </div>
         );
     }
