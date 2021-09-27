@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <h1>GROOVY TUNES</h1>
+</head>
+<body>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% block content %}
+    <h1>HOME</h1>
+    {% endblock %}
+</body>
+</html>
