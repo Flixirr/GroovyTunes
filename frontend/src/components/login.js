@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
 
-const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
 let user_token = "";
 
 
