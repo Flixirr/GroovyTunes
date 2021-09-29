@@ -10,13 +10,42 @@ class Login extends Component {
 
     state = {
         credentials: {
-            username: '',
+            email: '',
             password: ''
-        }
+        },
+        errors: false
     }
 
-    login = event => {
-        console.log(this.state.credentials);
+    sendData = event => {
+        event.preventDefault();
+
+        fetch(API_AUTH_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.credentials)
+        }).then(
+            res => res.json()
+        ).then(
+            data => {
+                if(data.key) {
+                    localStorage.clear();
+                    localStorage.setItem('token', data.key);
+                    window.location.replace('http://127.0.0.1:3000/main');
+                } else {
+                    this.setState({
+                        credentials:
+                        {
+                            email: '',
+                            password: ''
+                        }
+                    });
+                    localStorage.clear();
+                    this.setState({errors: true});
+                }
+            }
+        )
     }
 
     inputChanged = event => {
@@ -31,16 +60,18 @@ class Login extends Component {
         return (
             <div className="App">
                 <h1>Login</h1>
-
-                <input type="text" placeholder="Username" name="username" 
-                        value={this.state.credentials.username}
-                        onChange={this.inputChanged}></input> 
-                <br />
-                <input type="password" placeholder="Password" name="password"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <button onClick={ this.login }>Login</button>
+                    <form onSubmit={this.sendData}>
+                        <input type="email" placeholder="example@org.co" name="email"
+                                value={this.state.credentials.email}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input type="password" placeholder="Password" name="password"
+                                value={this.state.credentials.password}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input type='submit' value='Login' />
+                </form>
+                {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
                 <p class="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
             </div>
         );

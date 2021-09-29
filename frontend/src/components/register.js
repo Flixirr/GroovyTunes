@@ -1,30 +1,59 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom';
 
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
+
 class Register extends Component {
 
     state = {
         credentials: {
-            username: '',
-            password: '',
             email: '',
-            passwordMatches: false,
-            name: '',
-            surname: ''
-        }
+            password: '',
+            confirmPassword: ''
+        },
+        errors: false
     }
 
-    register = event => {
-        console.log(this.state.credentials);
+    sendData = event => {
+        event.preventDefault();
+
+        const dataDjangoModel = {
+            email: this.state.credentials.email,
+            password: this.state.credentials.password,
+            password1: this.state.credentials.confirmPassword
+        }
+
+        fetch(API_AUTH_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataDjangoModel)
+        }).then(
+            res => res.json()
+        ).then(
+            data => {
+                if(data.key) {
+                    localStorage.clear();
+                    localStorage.setItem('token', data.key);
+                    window.location.replace('http://127.0.0.1:3000/main');
+                } else {
+                    this.setState({ credentials: {
+                        email: '',
+                        password: '',
+                        confirmPassword: ''
+                    }});
+                    localStorage.clear();
+                    this.setState({errors: true});
+                }
+            }
+        )
     }
 
     inputChanged = event => {
         const creds = this.state.credentials;
 
-        if(event.target.name != "confrirmPassword")
-            creds[event.target.name] = event.target.value;
-        else
-            creds['passwordMatches'] = creds['password'] == event.target.value;
+        creds[event.target.name] = event.target.value;
 
         this.setState({credentials: creds});
     }
@@ -32,25 +61,23 @@ class Register extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Login</h1>
-
-                <input type="text" placeholder="Username" name="username" 
-                        value={this.state.credentials.username}
-                        onChange={this.inputChanged}></input> 
-                <br />
-                <input type="email" placeholder="example@org.co" name="email"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <input type="password" placeholder="Password" name="password"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <input type="password" placeholder="Confirm password" name="confrirmPassword"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <button onClick={ this.login }>Register</button>
+                <h1>Register</h1>
+                    <form onSubmit={this.sendData}>
+                        <input type="email" placeholder="example@org.co" name="email"
+                                value={this.state.credentials.email}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input type="password" placeholder="Password" name="password"
+                                value={this.state.credentials.password}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input type="password" placeholder="Confirm password" name="confirmPassword"
+                                value={this.state.credentials.confirmPassword}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
+                        <input type='submit' value='Register' />
+                    </form>
                 <p class="text-normal">Already have an account? <Link to="/">Go back to login.</Link></p>
             </div>
         );
