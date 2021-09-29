@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'groovytunes',
     'rest_framework',
     'corsheaders',
+    'app',
 ]
 
 MIDDLEWARE = [
