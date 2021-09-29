@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import {
-    Link
-  } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
+let user_token = "";
+
 
 class Login extends Component {
 
