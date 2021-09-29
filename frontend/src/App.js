@@ -3,7 +3,7 @@ import './App.css';
 import Login from './components/login';
 import Register from './components/register';
 
-import "./styles/main-theme.css";
+//import "./styles/main-theme.css";
 
 import {
   BrowserRouter as Router,
@@ -14,7 +14,7 @@ import {
 
 function App() {
   return (
-    <div style={{ background: "#121212" }} id="main">
+    <div style={{ background: "#FFFFFF" }} id="main">
       <Router>
         
           <Switch>
