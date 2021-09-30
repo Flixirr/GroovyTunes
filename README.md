@@ -26,3 +26,5 @@ cd frontend/
 npm install
 npm start
 ```
+
+In order for the application to work you have to have both servers running.
