@@ -70,6 +70,8 @@ class Login extends Component {
                     </form>
                 {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
                 <p className="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
+                <br />
+                <p>Or go to <Link to="/main">main page</Link></p>
             </div>
         );
     }
