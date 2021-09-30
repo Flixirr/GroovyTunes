@@ -18,6 +18,11 @@ function App() {
       <Router>
         
           <Switch>
+            
+            <Route path="/users/me">
+              <Dashboard />
+            </Route>
+
             <Route path="/main">
               <Dashboard />
             </Route>

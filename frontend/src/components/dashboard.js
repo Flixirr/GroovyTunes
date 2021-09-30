@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { SearchList } from './searchList'
 
@@ -90,28 +90,45 @@ class Dashboard extends Component {
         return (
             <div>
                 <div style={{ display: 'flex', flexDirection: 'column', background: '#121212', width: '10vw', height: '100vh', position: 'absolute', color: 'white'}}>
-                <Link to='/main'>
-                    <Button>
-                        Main page
+                    <Link to='/main'>
+                        <Button>
+                            Main page
+                        </Button>
+                    </Link>
+
+                    <Link to='/users/me'>
+                        <Button>
+                            My profile
+                        </Button>
+                    </Link>
+
+                    <Button onClick={this.logout.bind(this)}>
+                        Logout
                     </Button>
-                </Link>
+                </div>
+                    
 
-                <Button onClick={this.logout.bind(this)}>
-                    Logout
-                </Button>
-
-                </div>
-                <div style={{ display: 'flex', position: 'absolute', left: '10vw', width: '90vw', height: '10vh', alignItems:'center', justifyContent:'center', borderBottom: '1px solid black' }}>
-                    <form onSubmit={this.sendQuery}>
-                            <input type="text" placeholder="Enter query" name="searchQuery"
-                                    value={this.state.searchQuery}
-                                    onChange={this.inputChanged}></input>
-                            <input type='submit' value='Search' />
-                    </form>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', position: 'absolute', left: '10vw', top: '10vh', width: '90vw', height: '90vh', alignItems:'center', justifyContent:'center'}}>
-                    <SearchList items={this.state.searchResults} />
-                </div>
+                <Switch>
+                    <Route path="/main">
+                        <div style={{ display: 'flex', position: 'absolute', left: '10vw', width: '90vw', 
+                                height: '10vh', alignItems:'center', justifyContent:'center', borderBottom: '1px solid black' }}>
+                            <form onSubmit={this.sendQuery}>
+                                    <input type="text" placeholder="Enter query" name="searchQuery"
+                                            value={this.state.searchQuery}
+                                            onChange={this.inputChanged}></input>
+                                    <input type='submit' value='Search' />
+                            </form>
+                        </div>
+                        
+                        <div style={{ display: 'flex', flexDirection: 'column', position: 'absolute', 
+                                        left: '10vw', top: '10vh', width: '90vw', height: '90vh', alignItems:'center', justifyContent:'center'}}>
+                            <SearchList items={this.state.searchResults} />
+                        </div>
+                    </Route>
+                    <Route path="/users/me">
+                        <p>In progress!</p>
+                    </Route>
+                </Switch>
             </div>
         );
     }
