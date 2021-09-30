@@ -14,10 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib import admin
 from django.urls import include, path
+from groovytunes import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/users/', include('users.urls')),
+    path('search/', views.search, name='search'),
+    path('search/<str:query>/', views.search_result, name='search_result') # argument type might be changed
 ]
