@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom';
 
-const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
 
-class Login extends Component {
+class Register extends Component {
 
     state = {
         credentials: {
             email: '',
-            password: ''
+            password1: '',
+            password2: ''
         },
         errors: false
     }
@@ -31,13 +32,11 @@ class Login extends Component {
                     localStorage.setItem('token', data.key);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
-                    this.setState({
-                        credentials:
-                        {
-                            email: '',
-                            password: ''
-                        }
-                    });
+                    this.setState({ credentials: {
+                        email: '',
+                        password: '',
+                        confirmPassword: ''
+                    }});
                     localStorage.clear();
                     this.setState({errors: true});
                 }
@@ -56,23 +55,27 @@ class Login extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Login</h1>
+                <h1>Register</h1>
                     <form onSubmit={this.sendData}>
                         <input type="email" placeholder="example@org.co" name="email"
                                 value={this.state.credentials.email}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Password" name="password"
-                                value={this.state.credentials.password}
+                        <input type="password" placeholder="Password" name="password1"
+                                value={this.state.credentials.password1}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type='submit' value='Login' />
+                        <input type="password" placeholder="Confirm password" name="password2"
+                                value={this.state.credentials.password2}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
+                        <input type='submit' value='Register' />
                     </form>
-                {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
-                <p className="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
+                <p class="text-normal">Already have an account? <Link to="/">Go back to login.</Link></p>
             </div>
         );
     }
 }
 
-export default Login;
+export default Register;
