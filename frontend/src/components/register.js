@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
 
@@ -8,8 +8,8 @@ class Register extends Component {
     state = {
         credentials: {
             email: '',
-            password: '',
-            confirmPassword: ''
+            password1: '',
+            password2: ''
         },
         errors: false
     }
@@ -17,18 +17,12 @@ class Register extends Component {
     sendData = event => {
         event.preventDefault();
 
-        const dataDjangoModel = {
-            email: this.state.credentials.email,
-            password: this.state.credentials.password,
-            password1: this.state.credentials.confirmPassword
-        }
-
         fetch(API_AUTH_ENDPOINT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dataDjangoModel)
+            body: JSON.stringify(this.state.credentials)
         }).then(
             res => res.json()
         ).then(
@@ -67,12 +61,12 @@ class Register extends Component {
                                 value={this.state.credentials.email}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Password" name="password"
-                                value={this.state.credentials.password}
+                        <input type="password" placeholder="Password" name="password1"
+                                value={this.state.credentials.password1}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Confirm password" name="confirmPassword"
-                                value={this.state.credentials.confirmPassword}
+                        <input type="password" placeholder="Confirm password" name="password2"
+                                value={this.state.credentials.password2}
                                 onChange={this.inputChanged}></input>
                         <br />
                         {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}

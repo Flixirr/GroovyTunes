@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
-
 const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
-let user_token = "";
-
 
 class Login extends Component {
 
@@ -70,7 +67,7 @@ class Login extends Component {
                                 onChange={this.inputChanged}></input>
                         <br />
                         <input type='submit' value='Login' />
-                </form>
+                    </form>
                 {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
                 <p class="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
             </div>

@@ -2,6 +2,7 @@ import React  from 'react';
 import './App.css';
 import Login from './components/login';
 import Register from './components/register';
+import Dashboard from './components/dashboard';
 
 //import "./styles/main-theme.css";
 
@@ -18,6 +19,9 @@ function App() {
       <Router>
         
           <Switch>
+            <Route path="/main">
+              <Dashboard />
+            </Route>
 
             <Route path="/register">
               <Register />
