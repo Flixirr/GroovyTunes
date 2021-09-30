@@ -9,3 +9,20 @@ For route /api/v1/users/auth/register/
 }
 ```
 
+# How to run?
+
+For backend server
+```
+cd backend/
+pipenv install
+pipenv shell
+python manage.py runserver
+```
+
+For frontend server
+
+```
+cd frontend/
+npm install
+npm start
+```
