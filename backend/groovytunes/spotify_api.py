@@ -2,6 +2,8 @@ import requests
 from oauthlib.oauth2 import BackendApplicationClient
 from requests.auth import HTTPBasicAuth
 from requests_oauthlib import OAuth2Session
+from spotipy.oauth2 import SpotifyOAuth
+import spotipy
 
 
 class Spotify:
@@ -10,6 +12,8 @@ class Spotify:
         # do something with credentials
         client = BackendApplicationClient(client_id="e669ed62315040a09ffdb89afa0cf649")
         self._oauth = OAuth2Session(client=client)
+        self.url = "127.0.0.1:8000"
+        self.scopes = "playlist-modify-private user-library-modify"
         self._limit = 10  # changeable limit
         self._market = "US"  # changeable market
 
@@ -64,3 +68,10 @@ class Spotify:
 
         else:
             return 404  # what do we do if we get an error
+
+    def userAuthentication(self,scope):
+        sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
+        results = sp.current_user_saved_tracks()
+        for idx, item in enumerate(results['items']):
+            track = item['track']
+            print(idx, track['artists'][0]['name'], " – ", track['name'])
