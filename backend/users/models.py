@@ -24,6 +24,7 @@ class Comment(models.Model):
 class Song(models.Model):
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
+    spotfy_id = models.CharField()
 
     def __str__(self):
         return self.name
