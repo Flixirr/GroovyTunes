@@ -119,7 +119,7 @@ class Dashboard extends Component {
     render() {
 
         return (
-            <div>
+            <div style={{ position: 'absolute', zIndex: '3'}}>
                 <div style={{ display: 'flex', flexDirection: 'column', background: '#121212', width: '10vw', height: '100vh', position: 'absolute', color: 'white'}}>
                     <Link to='/main'>
                         <Button>

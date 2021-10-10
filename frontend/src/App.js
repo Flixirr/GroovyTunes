@@ -4,7 +4,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 
-//import "./styles/main-theme.css";
+import "./styles/main-theme.css";
 
 import {
   BrowserRouter as Router,
@@ -14,29 +14,35 @@ import {
 
 function App() {
   return (
-    <div style={{ background: "#FFFFFF" }} id="main">
-      <Router>
-        
-          <Switch>
-            
-            <Route path="/users/me">
-              <Dashboard />
-            </Route>
+    <div className="background-main-theme">
 
-            <Route path="/main">
-              <Dashboard />
-            </Route>
+      <div className="background-tilted-rect-red"></div>
+      <div className="background-tilted-rect-green"></div>
 
-            <Route path="/register">
-              <Register />
-            </Route>
+      <div className="route-content">
+        <Router>
+          
+            <Switch>
+              
+              <Route path="/users/me">
+                <Dashboard />
+              </Route>
 
-            <Route path="/">
-              <Login />
-            </Route>
-            
-          </Switch>
-      </Router>
+              <Route path="/main">
+                <Dashboard />
+              </Route>
+
+              <Route path="/register">
+                <Register />
+              </Route>
+
+              <Route path="/">
+                <Login />
+              </Route>
+              
+            </Switch>
+        </Router>
+      </div>
     </div>
   );
 }

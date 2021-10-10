@@ -55,7 +55,7 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="centered-flex">
                 <h1>Login</h1>
                     <form onSubmit={this.sendData}>
                         <input type="email" placeholder="example@org.co" name="email"
@@ -66,7 +66,7 @@ class Login extends Component {
                                 value={this.state.credentials.password}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type='submit' value='Login' />
+                        <input style={{ alignSelf: "center"}} type='submit' value='Login' />
                     </form>
                 {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
                 <p className="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
