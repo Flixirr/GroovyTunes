@@ -57,7 +57,7 @@ class Login extends Component {
     render() {
         return (
             <div className="centered-flex">
-                <img style={{ width: '18vw', height: '15vw', margin: '0'}} src={logo} alt="Logo" />
+                <img style={{ width: '29vh', height: '25vh', margin: '0'}} src={logo} alt="Logo" />
                     <form onSubmit={this.sendData}>
                         <input className="input-field" type="email" placeholder="example@org.co" name="email"
                                 value={this.state.credentials.email}
