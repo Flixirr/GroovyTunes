@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import logo from "../img/logo-white.png";
 
 const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
 
@@ -54,25 +55,25 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="App">
-                <h1>Register</h1>
+            <div className="centered-flex">
+                <img style={{ width: '18vw', height: '15vw' }} src={logo} alt="Logo" />
                     <form onSubmit={this.sendData}>
-                        <input type="email" placeholder="example@org.co" name="email"
+                        <input className="input-field" type="email" placeholder="example@org.co" name="email"
                                 value={this.state.credentials.email}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Password" name="password1"
+                        <input className="input-field" type="password" placeholder="Password" name="password1"
                                 value={this.state.credentials.password1}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Confirm password" name="password2"
+                        <input className="input-field" type="password" placeholder="Confirm password" name="password2"
                                 value={this.state.credentials.password2}
                                 onChange={this.inputChanged}></input>
                         <br />
                         {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
-                        <input type='submit' value='Register' />
+                        <input className="input-submit" type='submit' value='REGISTER' />
                     </form>
-                <p class="text-normal">Already have an account? <Link to="/">Go back to login.</Link></p>
+                <p class="text-normal">Already have an account? <Link to="/" className="text-link">Go back to login.</Link></p>
             </div>
         );
     }

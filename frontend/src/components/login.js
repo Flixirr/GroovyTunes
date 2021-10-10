@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import logo from "../img/logo-white.png";
 
 const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
 
@@ -56,22 +57,21 @@ class Login extends Component {
     render() {
         return (
             <div className="centered-flex">
-                <h1>Login</h1>
+                <img style={{ width: '18vw', height: '15vw', margin: '0'}} src={logo} alt="Logo" />
                     <form onSubmit={this.sendData}>
-                        <input type="email" placeholder="example@org.co" name="email"
+                        <input className="input-field" type="email" placeholder="example@org.co" name="email"
                                 value={this.state.credentials.email}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input type="password" placeholder="Password" name="password"
+                        <input className="input-field" type="password" placeholder="Password" name="password"
                                 value={this.state.credentials.password}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input style={{ alignSelf: "center"}} type='submit' value='Login' />
+                        <input className="input-submit" type='submit' value='LOGIN' />
                     </form>
                 {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
-                <p className="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
-                <br />
-                <p>Or go to <Link to="/main">main page</Link></p>
+                <p className="text-normal">Don't have an account yet? <Link to="/register" className="text-link">Register!</Link></p>
+                <p style={{ fontSize: '2vh' }} >Or go to <Link to="/main" className="text-link">main page</Link></p>
             </div>
         );
     }
