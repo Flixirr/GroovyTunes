@@ -11,13 +11,18 @@ os.environ['SPOTIPY_REDIRECT_URI'] = 'http://example.com/'
 class Playlist:
     def __init__(self, scope):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-        results = self.sp.current_user_saved_tracks()
-        for idx, item in enumerate(results['items']):
-            track = item['track']
-            print(idx, track['artists'][0]['name'], " – ", track['name'])
+        #results = self.sp.current_user_saved_tracks()
+        #for idx, item in enumerate(results['items']):
+           # track = item['track']
+            #print(idx, track['artists'][0]['name'], " – ", track['name'])
 
-    def createNewPlaylist(self, name):
-        # adding to database and by request to spotify
+    def createNewPlaylist(self, name, description):
+        # spotify
+        user_id = self.sp.current_user()['id']
+        #self.sp.user_playlist_create(user= user_id,name=name,public=True,collaborative=False,description=description)
+        our_playlist = self.sp.user_playlists(user_id,1) # takes info about newest created playlist, so just created one
+        our_playlist_id = our_playlist['items'][0]['id']
+        # database
         pass
 
     def changePlalistData(self):
@@ -28,7 +33,7 @@ class Playlist:
         # delete playlist in database and by spotify request
         pass
 
-
 #scopes = "playlist-modify-private user-library-modify"
 scopes = "user-library-read"
-Playlist(scopes)
+#Playlist(scopes)
+Playlist('playlist-modify-public').createNewPlaylist('Nowa plejka', "testowa plejka nr 2")
