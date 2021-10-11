@@ -5,7 +5,7 @@ import os
 
 os.environ['SPOTIPY_CLIENT_ID'] = "e669ed62315040a09ffdb89afa0cf649"
 os.environ['SPOTIPY_CLIENT_SECRET'] = "4283d027252045ec8ec81bc2d796349a"
-os.environ['SPOTIPY_REDIRECT_URI'] = 'http://127.0.0.1:8000/'
+os.environ['SPOTIPY_REDIRECT_URI'] = 'http://example.com/'
 
 
 class Playlist:
@@ -29,5 +29,6 @@ class Playlist:
         pass
 
 
-scopes = "playlist-modify-private user-library-modify"
+#scopes = "playlist-modify-private user-library-modify"
+scopes = "user-library-read"
 Playlist(scopes)
