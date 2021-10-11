@@ -4,7 +4,9 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 
+
 import "./styles/main-theme.css";
+import "./styles/search-styles.css";
 
 import {
   BrowserRouter as Router,

@@ -13,6 +13,10 @@ class Login extends Component {
         },
         errors: false
     }
+    
+    componentDidMount() {
+        document.body.style.overflow = "hidden";
+    }
 
     sendData = event => {
         event.preventDefault();

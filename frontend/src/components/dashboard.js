@@ -3,6 +3,9 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { Button } from 'semantic-ui-react';
 import { SearchList } from './searchList';
 import { Profile } from './profile';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import logo from "../img/logo-white.png";
 
 function LogoutButtonLogic(props) {
     const logout = event => {
@@ -31,19 +34,9 @@ function LogoutButtonLogic(props) {
         );
     } else {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column'}}>
-                <Link to='/'>
-                    <Button>
-                        Login
-                    </Button>
-                </Link>
-
-                <Link to='/register'>
-                    <Button>
-                        Register
-                    </Button>
-                </Link>
-            </div>
+            <Link to='/'>
+                <FontAwesomeIcon className="navbar-icon text-link" icon={faSignInAlt} />
+            </Link>
         );
     }
 }
@@ -87,6 +80,10 @@ class Dashboard extends Component {
     };
 
     componentDidMount() {
+        document.body.style.backgroundColor = "#121212";
+        document.body.style.overflowX = "hidden";
+        document.body.style.overflowY = "auto";
+
         fetch('http://127.0.0.1:8000/api/v1/users/auth/user', {
             method: 'GET',
             headers: {
@@ -119,39 +116,36 @@ class Dashboard extends Component {
     render() {
 
         return (
-            <div style={{ position: 'absolute', zIndex: '3'}}>
-                <div style={{ display: 'flex', flexDirection: 'column', background: '#121212', width: '10vw', height: '100vh', position: 'absolute', color: 'white'}}>
-                    <Link to='/main'>
-                        <Button>
-                            Main page
-                        </Button>
-                    </Link>
+            <div>
+                <div className="navbar-wrapper">
+                    <div className="navbar">
+                        <Link to='/main'>
+                            <FontAwesomeIcon className="navbar-icon text-link" icon={faHome} />
+                        </Link>
 
-                    <Link to='/users/me'>
-                        <Button>
-                            My profile
-                        </Button>
-                    </Link>
+                        <Link to='/users/me'>
+                            <FontAwesomeIcon className="navbar-icon text-link" icon={faUser} />
+                        </Link>
 
-                    <LogoutButtonLogic isLoggedIn={this.state.userLoggedIn} />
-                    
+                        <LogoutButtonLogic isLoggedIn={this.state.userLoggedIn} />
+                    </div>
                 </div>
-                    
 
                 <Switch>
                     <Route path="/main">
-                        <div style={{ display: 'flex', position: 'absolute', left: '10vw', width: '90vw', 
-                                height: '10vh', alignItems:'center', justifyContent:'center', borderBottom: '1px solid black' }}>
+                        <div className="search-wrapper">
+                            <img style={{ width: '24vh', height: '20vh', marginTop: '10px'}} src={logo} alt="Logo" />
                             <form onSubmit={this.sendQuery}>
-                                    <input type="text" placeholder="Enter query" name="searchQuery"
+                                    <input type="text" placeholder="Enter query" 
+                                            className="search-input"
+                                            name="searchQuery"
                                             value={this.state.searchQuery}
                                             onChange={this.inputChanged}></input>
-                                    <input type='submit' value='Search' />
                             </form>
                         </div>
                         
-                        <div style={{ display: 'flex', flexDirection: 'column', position: 'absolute', 
-                                        left: '10vw', top: '10vh', width: '90vw', height: '90vh', alignItems:'center', justifyContent:'center'}}>
+                        <div className="search-results">
+                            
                             <SearchList items={this.state.searchResults} />
                         </div>
                     </Route>
