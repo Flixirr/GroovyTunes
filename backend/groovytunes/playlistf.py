@@ -1,6 +1,4 @@
 # functions for playlist creation
-import os
-
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
