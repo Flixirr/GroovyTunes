@@ -1,5 +1,5 @@
 from django.urls import include, path
-from groovytunes import views
+import views #shouldnt be just |import views|?
 
 urlpatterns = [
     path('search/', views.search, name='search'),
