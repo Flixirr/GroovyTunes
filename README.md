@@ -12,7 +12,7 @@ Playlist example requests
 
 Get all Playlists:
 	URL = "http://127.0.0.1:8000/api/playlist"
-	r = requests.delete(url = URL, {})
+	r = requests.get(url = URL)
 	data = r.json()
 
 	Return (Example for 2 playlists):
@@ -49,6 +49,20 @@ data = {'user': 1,
 		'rating_sum':6,
 		'rating_number':2}
 r = requests.put(url = URL, json = data)
+
+User Examples
+
+Post user:
+
+URL = "http://127.0.0.1:8000/api/user"
+data = {'firstName': 'Max',
+		'lastName':'Musterman',
+		'userName':'testUser',
+        'email':'test@test.com',
+        'password': 'test'}
+r = requests.put(url = URL, json = data)
+
+The other things work like in playlist
 
 # How to run?
 
