@@ -13,7 +13,4 @@ class GroovyUserAdmin(UserAdmin):
     list_display = ['email']
 
 admin.site.register(GroovyUser, GroovyUserAdmin)
-admin.site.register(Playlist)
-admin.site.register(Song)
-admin.site.register(Rated)
-admin.site.register(Comment)
+
