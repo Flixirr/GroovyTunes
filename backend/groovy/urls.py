@@ -20,6 +20,7 @@ from groovytunes import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
+    path('api/users/rest/', include('users.api.urls')),
     path('search/', views.search, name='search'),
     path('search/<str:query>/', views.search_result, name='search_result'), # argument type might be changed
     path('api/playlist', views.playlist_list, name='playlist_list'),

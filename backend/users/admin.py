@@ -1,16 +1,20 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-
-from .forms import GroovyUserChangeForm, GroovyUserCreationForm
 from .models import *
 
-# Register your models here.
+
 class GroovyUserAdmin(UserAdmin):
-    add_form = GroovyUserCreationForm
-    form = GroovyUserChangeForm
-    model = GroovyUser
-    list_display = ['email']
+    list_display = ('email', 'username', 'first_name', 'last_name', 'date_joined', 'last_login', 'is_admin', 'is_staff')
+    search_fields = ('email', 'username', 'first_name', 'last_name')
+    readonly_fields = ('date_joined', 'last_login')
+
+    filter_horizontal = ()
+    list_filter = ()
+    fieldsets = ()
+
 
 admin.site.register(GroovyUser, GroovyUserAdmin)
-
+admin.site.register(Playlist)
+admin.site.register(Song)
+admin.site.register(Rated)
+admin.site.register(Comment)
