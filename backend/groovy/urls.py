@@ -22,5 +22,9 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/users/rest/', include('users.api.urls')),
     path('search/', views.search, name='search'),
-    path('search/<str:query>/', views.search_result, name='search_result') # argument type might be changed
+    path('search/<str:query>/', views.search_result, name='search_result'), # argument type might be changed
+    path('api/playlist', views.playlist_list, name='playlist_list'),
+    path('api/playlist/<int:id>', views.playlist_details, name='playlist_details'),
+    path('api/user', views.user_list, name='user_list'),
+    path('api/user/<int:id>', views.user_details, name='user_details'),
 ]
