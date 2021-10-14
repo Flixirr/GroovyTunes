@@ -4,9 +4,7 @@ import Login from './components/login';
 import Register from './components/register';
 import Dashboard from './components/dashboard';
 
-
-
-
+import "./styles/profile-styles.css";
 import "./styles/main-theme.css";
 import "./styles/search-styles.css";
 
@@ -29,6 +27,10 @@ function App() {
             <Switch>
               
               <Route path="/users/me">
+                <Dashboard />
+              </Route>
+
+              <Route path="/users/data/change">
                 <Dashboard />
               </Route>
 

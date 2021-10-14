@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
 import { SearchList } from './searchList';
 import { Profile } from './profile';
+import { ProfileChangeData } from './profileDataChange';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import logo from "../img/logo-white.png";
@@ -151,10 +151,11 @@ class Dashboard extends Component {
                         </div>
                     </Route>
                     <Route path="/users/me">
-                        <div style={{ position: 'absolute', left: '10vw', width: '90vw', 
-                                    height: '100vh', alignItems:'center', justifyContent: 'flex-start' }}>
-                            <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
-                        </div>
+                        <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
+                    </Route>
+
+                    <Route>
+                        <ProfileChangeData profile={this.state.loggedUserCreds} />
                     </Route>
                 </Switch>
             </div>

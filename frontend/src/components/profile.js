@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Button } from "semantic-ui-react";
+
+import logo from "../img/blank-profile-picture-973460_1280.png";
 
 export function Profile(props) {
 
@@ -7,21 +10,38 @@ export function Profile(props) {
 
     if(props.isLoggedIn) {
         return (
-            <div style={{display: 'flex', flexDirection: 'column'}}>
-                <h1>Welcome back!</h1>
+            <div className="profile-layout">
+                <img className="profile-pic" src={logo} alt="Profile picture" />
                 <br />
-                <p>Username: {profileData.username}</p>
-                <br />
-                <p>E-mail: {profileData.email}</p>
-                <br />
-                <p>First name (optional): {profileData.first_name}</p>
-                <br />
-                <p>Last name (optional): {profileData.last_name}</p>
+                <div className="profile-info">
+                    <p>USERNAME</p>
+                        <input type="text" value={profileData.username} className="info-box" readOnly />
+                    <br />
+                    <p>E-MAIL </p>
+                        <input type="text" value={profileData.email} className="info-box" readOnly />
+                    <br />
+                    <p>FIRST NAME (optional)</p>
+                        <input type="text" value={profileData.first_name} className="info-box" readOnly />
+                    <br />
+                    <p>LAST NAME (optional)</p>
+                        <input type="text" value={profileData.last_name} className="info-box" readOnly />
+                    <br />
+                    <br />
+                </div>
+
+                <Link to="/users/data/change">
+                    <Button className="profile-button">
+                            CHANGE DATA
+                    </Button>
+                </Link>
             </div>
         );
     } else {
         return (
-            <span>Seems you don't have a profile yet. Do you want to <Link to="/register">create one?</Link></span>
+            <div className="profile-layout">
+                <p style={{color: 'white', fontSize: '4vh'}}>Seems you don't have a profile yet. Do you want to <Link to="/register" className="text-link">create one?</Link></p>
+            </div>
+            
         );
     }
 
