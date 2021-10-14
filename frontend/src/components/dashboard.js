@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Link, Route, Switch } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
 import { SearchList } from './searchList';
 import { Profile } from './profile';
+import { ProfileChangeData } from './profileDataChange';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import logo from "../img/logo-white.png";
+import Cookies from 'js-cookie';
 
 function LogoutButtonLogic(props) {
     const logout = event => {
@@ -15,22 +16,22 @@ function LogoutButtonLogic(props) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Token ${localStorage.getItem('token')}`
+                Authorization: `Token ${Cookies.get('token')}`
             }
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                localStorage.clear();
+                Cookies.set('token', '');
                 window.location.replace('http://127.0.0.1:3000/');
         });
     };
 
     if(props.isLoggedIn) {
         return (
-            <Button onClick={logout.bind(this)}>
-                Logout
-            </Button>
+            <Link onClick={logout.bind(this)}>
+                <FontAwesomeIcon className="navbar-icon text-link" icon={faSignOutAlt} />
+            </Link>
         );
     } else {
         return (
@@ -87,7 +88,7 @@ class Dashboard extends Component {
         fetch('http://127.0.0.1:8000/api/v1/users/auth/user', {
             method: 'GET',
             headers: {
-                Authorization: `Token ${localStorage.getItem('token')}`
+                Authorization: `Token ${Cookies.get('token')}`
             }
         }) 
             .then(res => res.json())
@@ -150,10 +151,11 @@ class Dashboard extends Component {
                         </div>
                     </Route>
                     <Route path="/users/me">
-                        <div style={{ position: 'absolute', left: '10vw', width: '90vw', 
-                                    height: '100vh', alignItems:'center', justifyContent: 'flex-start' }}>
-                            <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
-                        </div>
+                        <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
+                    </Route>
+
+                    <Route>
+                        <ProfileChangeData profile={this.state.loggedUserCreds} />
                     </Route>
                 </Switch>
             </div>
