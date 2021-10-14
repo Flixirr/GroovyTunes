@@ -2,27 +2,27 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
-#from backend.users.models import Playlist
+from django.apps import apps
 os.environ['SPOTIPY_CLIENT_ID'] = "e669ed62315040a09ffdb89afa0cf649"
 os.environ['SPOTIPY_CLIENT_SECRET'] = "4283d027252045ec8ec81bc2d796349a"
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://example.com/'
 
 
-class PlaylistMeneger:
+class PlaylistManager:
     def __init__(self, scope):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-    def createNewPlaylist(self, name, description):
+
+    def createNewPlaylist(self,user, name, description):
         # spotify
         user_id = self.sp.current_user()['id']
         self.sp.user_playlist_create(user=user_id, name=name, public=True, collaborative=False, description=description)
         our_playlist = self.sp.user_playlists(user_id,
                                               1)  # takes info about newest created playlist, so just created one
         spotify_playlist_id = our_playlist['items'][0]['id']
-        print(spotify_playlist_id)
         # database not working while importing models
-        #p = Playlist(user=user_id, name=name, description=description, spotify_id=spotify_playlist_id)
-        #p.save()
-
+        # user needed form Hendrik GroovyUser
+        #p = apps.get_model('users','Playlist')
+        return "Sucessfuly created playlist"
     def changePlaylistData(self, playlist_id, name=None, description=None):
         # if we give empty brackets, if we fill data about playlist for customer when he opens change panel
         # spotify and database
@@ -36,9 +36,10 @@ class PlaylistMeneger:
             self.sp.playlist_change_details(playlist_id=playlist_id, name=name, description=description)
 
     def deletePlaylist(self, playlist_id):
-        # spotify
+        # spotify # possible to add image later with 1 function playlist_cover_image
         self.sp.current_user_unfollow_playlist(playlist_id)
         # database
+        #p = Playlist
         pass
 
     def getSpotifyUserPlaylists(self):
@@ -49,11 +50,20 @@ class PlaylistMeneger:
         for playlist in spotify_playlists["items"]:
             if playlist["owner"]['id'] == user_id:
                 own_playlist.append(playlist)
-        print(own_playlist)
+        return own_playlist
 
+    def addToPlaylist(self,playlist_id, song_id):
+        # spotify
+        self.sp.playlist_add_items(playlist_id=playlist_id, items=[song_id])
+        # database
+
+    def removeFormPlyalist(self, playlist_id, song_id):
+        # spotify
+        self.sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=[song_id])
+        # database
 
 scopes = "user-library-read user-library-modify playlist-modify-public"
-#PlaylistMeneger(scopes).createNewPlaylist('Nowa plejka2', "***** pis i konfederacje")
-#PlaylistMeneger(scopes).changePlaylistData(playlist_id="7fc1H5jwSd1AldJIfP6qtd", description="jednak pis i konfe")
-#PlaylistMeneger(scopes).deletePlaylist(playlist_id='4giBrWulaNhEsxjPcC7U6R')
-PlaylistMeneger(scopes).getSpotifyUserPlaylists()
+#PlaylistManager(scopes).createNewPlaylist(user= GroovyUser,name='Nowa plejka2', description="***** pis i konfederacje")
+#PlaylistManager(scopes).changePlaylistData(playlist_id="7fc1H5jwSd1AldJIfP6qtd", description="jednak pis i konfe")
+#PlaylistManager(scopes).deletePlaylist(playlist_id='1aazvT5Hpruab2ui7DkxPA')
+#PlaylistManager(scopes).getSpotifyUserPlaylists()
