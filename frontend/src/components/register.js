@@ -1,57 +1,85 @@
 import React, { Component } from 'react'
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import logo from "../img/logo-white.png";
+import Cookies from 'js-cookie';
+
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
 
 class Register extends Component {
 
     state = {
         credentials: {
-            username: '',
-            password: '',
             email: '',
-            passwordMatches: false,
-            name: '',
-            surname: ''
-        }
+            password1: '',
+            password2: ''
+        },
+        errors: false
     }
 
-    register = event => {
-        console.log(this.state.credentials);
+    componentDidMount() {
+        document.body.style.backgroundColor = "#121212";
+        document.body.style.overflow = "hidden";
+    }
+
+    sendData = event => {
+        event.preventDefault();
+
+        fetch(API_AUTH_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.credentials)
+        }).then(
+            res => res.json()
+        ).then(
+            data => {
+                if(data.key) {
+                    Cookies.set('token', '');
+                    Cookies.set('token', data.key);
+                    window.location.replace('http://127.0.0.1:3000/main');
+                } else {
+                    this.setState({ credentials: {
+                        email: '',
+                        password: '',
+                        confirmPassword: ''
+                    }});
+                    Cookies.set('token', '');
+                    this.setState({errors: true});
+                }
+            }
+        )
     }
 
     inputChanged = event => {
         const creds = this.state.credentials;
 
-        if(event.target.name != "confrirmPassword")
-            creds[event.target.name] = event.target.value;
-        else
-            creds['passwordMatches'] = creds['password'] == event.target.value;
+        creds[event.target.name] = event.target.value;
 
         this.setState({credentials: creds});
     }
 
     render() {
         return (
-            <div className="App">
-                <h1>Login</h1>
-
-                <input type="text" placeholder="Username" name="username" 
-                        value={this.state.credentials.username}
-                        onChange={this.inputChanged}></input> 
-                <br />
-                <input type="email" placeholder="example@org.co" name="email"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <input type="password" placeholder="Password" name="password"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <input type="password" placeholder="Confirm password" name="confrirmPassword"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <button onClick={ this.login }>Register</button>
-                <p class="text-normal">Already have an account? <Link to="/">Go back to login.</Link></p>
+            <div className="centered-flex">
+                <img style={{ width: '29vh', height: '25vh' }} src={logo} alt="Logo" />
+                    <form onSubmit={this.sendData}>
+                        <input className="input-field" type="email" placeholder="example@org.co" name="email"
+                                value={this.state.credentials.email}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="password" placeholder="Password" name="password1"
+                                value={this.state.credentials.password1}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="password" placeholder="Confirm password" name="password2"
+                                value={this.state.credentials.password2}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
+                        <input className="input-submit" type='submit' value='REGISTER' />
+                    </form>
+                <p class="text-normal">Already have an account? <Link to="/" className="text-link">Go back to login.</Link></p>
             </div>
         );
     }

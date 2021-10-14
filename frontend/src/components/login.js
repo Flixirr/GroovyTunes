@@ -1,19 +1,55 @@
 import React, { Component } from 'react';
-import {
-    Link
-  } from "react-router-dom";
+import { Link } from "react-router-dom";
+import logo from "../img/logo-white.png";
+import Cookies from 'js-cookie';
+
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
 
 class Login extends Component {
 
     state = {
         credentials: {
-            username: '',
+            email: '',
             password: ''
-        }
+        },
+        errors: false
+    }
+    
+    componentDidMount() {
+        document.body.style.backgroundColor = "#121212";
+        document.body.style.overflow = "hidden";
     }
 
-    login = event => {
-        console.log(this.state.credentials);
+    sendData = event => {
+        event.preventDefault();
+
+        fetch(API_AUTH_ENDPOINT, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.state.credentials)
+        }).then(
+            res => res.json()
+        ).then(
+            data => {
+                if(data.key) {
+                    Cookies.set('token', '');
+                    Cookies.set('token', data.key);
+                    window.location.replace('http://127.0.0.1:3000/main');
+                } else {
+                    this.setState({
+                        credentials:
+                        {
+                            email: '',
+                            password: ''
+                        }
+                    });
+                    Cookies.set('token', '');
+                    this.setState({errors: true});
+                }
+            }
+        )
     }
 
     inputChanged = event => {
@@ -26,19 +62,22 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="App">
-                <h1>Login</h1>
-
-                <input type="text" placeholder="Username" name="username" 
-                        value={this.state.credentials.username}
-                        onChange={this.inputChanged}></input> 
-                <br />
-                <input type="password" placeholder="Password" name="password"
-                        value={this.state.credentials.password}
-                        onChange={this.inputChanged}></input>
-                <br />
-                <button onClick={ this.login }>Login</button>
-                <p class="text-normal">Don't have an account yet? <Link to="/register">Register!</Link></p>
+            <div className="centered-flex">
+                <img style={{ width: '29vh', height: '25vh', margin: '0'}} src={logo} alt="Logo" />
+                    <form onSubmit={this.sendData}>
+                        <input className="input-field" type="email" placeholder="example@org.co" name="email"
+                                value={this.state.credentials.email}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="password" placeholder="Password" name="password"
+                                value={this.state.credentials.password}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-submit" type='submit' value='LOGIN' />
+                    </form>
+                {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
+                <p className="text-normal">Don't have an account yet? <Link to="/register" className="text-link">Register!</Link></p>
+                <p style={{ fontSize: '2vh' }} >Or go to <Link to="/main" className="text-link">main page</Link></p>
             </div>
         );
     }

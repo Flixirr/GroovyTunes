@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-AUTH_USER_MODEL = 'users.GroovyUser'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -26,7 +25,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 SECRET_KEY = 'django-insecure-fijd!fx(h3=r^=gvzk2c9gtk)g5m@c2ph^!qf-ve#em+q!hwpc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -163,3 +162,5 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'users.GroovyUser'
