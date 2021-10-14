@@ -9,20 +9,18 @@ os.environ['SPOTIPY_REDIRECT_URI'] = 'http://example.com/'
 
 
 class PlaylistManager:
-    def __init__(self, scope):
+    def __init__(self, scope="user-library-read user-library-modify playlist-modify-public"):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
-    def createNewPlaylist(self,user, name, description):
+    def createNewPlaylist(self, name, description):
         # spotify
         user_id = self.sp.current_user()['id']
         self.sp.user_playlist_create(user=user_id, name=name, public=True, collaborative=False, description=description)
         our_playlist = self.sp.user_playlists(user_id,
                                               1)  # takes info about newest created playlist, so just created one
         spotify_playlist_id = our_playlist['items'][0]['id']
-        # database not working while importing models
-        # user needed form Hendrik GroovyUser
-        #p = apps.get_model('users','Playlist')
-        return "Sucessfuly created playlist"
+        return spotify_playlist_id
+
     def changePlaylistData(self, playlist_id, name=None, description=None):
         # if we give empty brackets, if we fill data about playlist for customer when he opens change panel
         # spotify and database
@@ -62,7 +60,6 @@ class PlaylistManager:
         self.sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=[song_id])
         # database
 
-scopes = "user-library-read user-library-modify playlist-modify-public"
 #PlaylistManager(scopes).createNewPlaylist(user= GroovyUser,name='Nowa plejka2', description="***** pis i konfederacje")
 #PlaylistManager(scopes).changePlaylistData(playlist_id="7fc1H5jwSd1AldJIfP6qtd", description="jednak pis i konfe")
 #PlaylistManager(scopes).deletePlaylist(playlist_id='1aazvT5Hpruab2ui7DkxPA')
