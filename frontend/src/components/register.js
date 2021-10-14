@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import logo from "../img/logo-white.png";
+import Cookies from 'js-cookie';
 
 const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
 
@@ -16,6 +17,7 @@ class Register extends Component {
     }
 
     componentDidMount() {
+        document.body.style.backgroundColor = "#121212";
         document.body.style.overflow = "hidden";
     }
 
@@ -33,8 +35,8 @@ class Register extends Component {
         ).then(
             data => {
                 if(data.key) {
-                    localStorage.clear();
-                    localStorage.setItem('token', data.key);
+                    Cookies.set('token', '');
+                    Cookies.set('token', data.key);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
                     this.setState({ credentials: {
@@ -42,7 +44,7 @@ class Register extends Component {
                         password: '',
                         confirmPassword: ''
                     }});
-                    localStorage.clear();
+                    Cookies.set('token', '');
                     this.setState({errors: true});
                 }
             }
