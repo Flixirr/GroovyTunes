@@ -12,7 +12,7 @@ class PlaylistManager:
     def __init__(self, scope="user-library-read user-library-modify playlist-modify-public"):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
-    def createNewPlaylist(self, name, description):
+    def createNewPlaylist(self,user, name, description):
         # spotify
         user_id = self.sp.current_user()['id']
         self.sp.user_playlist_create(user=user_id, name=name, public=True, collaborative=False, description=description)
