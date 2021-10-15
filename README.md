@@ -1,6 +1,6 @@
 # Example request
 
-For route /api/v1/users/auth/register/ PUSH
+For route /api/users/auth/register/ PUSH
 ```json
 {
     "email": "johnnytest@aa.aa",
