@@ -13,7 +13,7 @@ reply:
 }
 ```
 
-For route /api/v1/users/auth/api-token-auth/ PUSH
+For route /api/users/auth/api-token-auth/ PUSH
 ```json
 body:
 KEY		VALUE
@@ -25,7 +25,7 @@ reply:
 }
 ```
 
-For route /api/v1/users/auth/user/ GET
+For route /api/users/auth/user/ GET
 ```json
 header:
 KEY		VALUE
@@ -40,7 +40,7 @@ reply:
 }
 ```
 
-For route /api/v1/users/auth/logout/ POST
+For route /api/users/auth/logout/ POST
 ```json
 header:
 KEY		VALUE
@@ -51,7 +51,7 @@ reply:
 }
 ```
 
-For route /api/v1/users/auth/login/ POST
+For route /api/users/auth/login/ POST
 ```json
 body:
 KEY		VALUE
