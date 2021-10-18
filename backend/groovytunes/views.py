@@ -39,6 +39,8 @@ def playlist_list(request):
 
     elif request.method == 'POST':
         playlist_data = JSONParser().parse(request)
+        # create spotify playlist
+        playlist_data['spotify_id'] = PlaylistManager().createNewPlaylist(data=playlist_data)
         playlist_serializer = PlaylistSerializer(data=playlist_data)
         if playlist_serializer.is_valid():
             playlist_serializer.save()
@@ -63,6 +65,11 @@ def playlist_details(request, id):  # how to implement description in databases
 
     elif request.method == 'PUT':
         playlistData = JSONParser().parse(request)
+        # change data on spotify playlist
+        spotify_id = playlistData['spotify_id']
+        name = playlistData['name']
+        description = playlistData['description']
+        PlaylistManager().changePlaylistData(playlist_id=spotify_id, name=name, description=description)
         playlist_serializer = PlaylistSerializer(playlist, data=playlistData)
         if playlist_serializer.is_valid():
             playlist_serializer.save()
@@ -70,6 +77,9 @@ def playlist_details(request, id):  # how to implement description in databases
         return JsonResponse(playlist_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
+        # plus delete on spotify
+        print(playlist.spotify_id)
+        PlaylistManager().deletePlaylist(playlist.spotify_id) # no data that is needed
         playlist.delete()
         return JsonResponse({'message': 'Playlist was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 

@@ -12,8 +12,10 @@ class PlaylistManager:
     def __init__(self, scope="user-library-read user-library-modify playlist-modify-public"):
         self.sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
 
-    def createNewPlaylist(self,user, name, description):
+    def createNewPlaylist(self, data):
         # spotify
+        name = data['name']
+        description = data['description']
         user_id = self.sp.current_user()['id']
         self.sp.user_playlist_create(user=user_id, name=name, public=True, collaborative=False, description=description)
         our_playlist = self.sp.user_playlists(user_id,
@@ -21,17 +23,9 @@ class PlaylistManager:
         spotify_playlist_id = our_playlist['items'][0]['id']
         return spotify_playlist_id
 
-    def changePlaylistData(self, playlist_id, name=None, description=None):
-        # if we give empty brackets, if we fill data about playlist for customer when he opens change panel
+    def changePlaylistData(self, playlist_id, name, description):
         # spotify and database
-        if name == None and description == None:
-            pass
-        elif name == None and description != None:
-            self.sp.playlist_change_details(playlist_id=playlist_id, description=description)
-        elif name != None and description == None:
-            self.sp.playlist_change_details(playlist_id=playlist_id, name=name)
-        elif name != None and description != None:
-            self.sp.playlist_change_details(playlist_id=playlist_id, name=name, description=description)
+        self.sp.playlist_change_details(playlist_id=playlist_id, name=name, description=description)
 
     def deletePlaylist(self, playlist_id):
         # spotify # possible to add image later with 1 function playlist_cover_image
@@ -40,7 +34,7 @@ class PlaylistManager:
         #p = Playlist
         pass
 
-    def getSpotifyUserPlaylists(self):
+    def synchroniseSpotifyUserPlaylists(self):
         # when running page, every time update all playlist form spotify to our database
         spotify_playlists = self.sp.current_user_playlists(limit=20)
         user_id = self.sp.current_user()['id']
@@ -49,6 +43,7 @@ class PlaylistManager:
             if playlist["owner"]['id'] == user_id:
                 own_playlist.append(playlist)
         return own_playlist
+        # also for delete and changes done on spotify
 
     def addToPlaylist(self,playlist_id, song_id):
         # spotify
