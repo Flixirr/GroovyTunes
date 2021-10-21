@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from .spotify_api import Spotify
+import requests
 
 genius_obj = Genius()
 spotify_obj = Spotify()
@@ -125,3 +126,123 @@ def user_details(request, id):
     for spoti, gen in zip(data_spotify, data_genius):
         results['results'].append({**spoti, **gen[0], **gen[1]})
     return JsonResponse(results)
+
+@api_view(['GET', 'POST', 'DELETE'])
+def comment_list(request):
+    if request.method == 'GET':
+        comment = Comment.objects.all()
+        comment_serializer = CommentSerializer(comment, many=True)
+        return JsonResponse(comment_serializer.data, safe=False)
+ 
+    elif request.method == 'POST':
+        comment_data = JSONParser().parse(request)
+        comment_serializer = CommentSerializer(data=comment_data)
+        if comment_serializer.is_valid():
+            comment_serializer.save()
+            return JsonResponse(comment_serializer.data, status=status.HTTP_201_CREATED) 
+        return JsonResponse(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        count = Comment.objects.all().delete()
+        return JsonResponse({'message': '{} Comments were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def comment_details(request, id):
+    try: 
+        comment = Comment.objects.get(pk=id) 
+    except Comment.DoesNotExist: 
+        return JsonResponse({'message': 'The Comment does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+ 
+    if request.method == 'GET': 
+        comment_serializer = CommentSerializer(comment) 
+        return JsonResponse(comment_serializer.data) 
+ 
+    elif request.method == 'PUT': 
+        commentData = JSONParser().parse(request) 
+        comment_serializer = CommentSerializer(comment, data=commentData) 
+        if comment_serializer.is_valid(): 
+            comment_serializer.save() 
+            return JsonResponse(comment_serializer.data) 
+        return JsonResponse(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+ 
+    elif request.method == 'DELETE': 
+        comment.delete() 
+        return JsonResponse({'message': 'Comment was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET', 'DELETE'])
+def playlist_comments(request, p_id):
+    if request.method == 'GET': 
+        try:
+            playlist = Playlist.objects.get(pk=p_id)
+            comment = Comment.objects.filter(playlist=playlist).all()
+            comment_serializer = CommentSerializer(comment, many=True)
+            return JsonResponse(data=comment_serializer.data, safe=False)
+        except Exception as e:
+            return JsonResponse({'message': 'The Comment does not exist'}, status=status.HTTP_404_NOT_FOUND)
+        
+    elif request.method == 'DELETE': 
+        try:
+            playlist = Playlist.objects.get(pk=p_id)
+            count = Comment.objects.filter(playlist=playlist).all().delete()
+
+            return JsonResponse({'message': '{} Comments were deleted successfully!'.format(count[0])}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return JsonResponse({'message': 'The Comment does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+def rate_playlist(request):
+    if request.method == 'POST': 
+        rating_data = JSONParser().parse(request)
+        rating_serializer = RatingSerializer(data=rating_data)
+        user_id = rating_data['user']
+        playlist_id = rating_data['playlist']
+        try: 
+            u_id = rating_data['user']
+            p_id = rating_data['playlist']
+            old_rating = Rated.objects.filter(user_id = u_id, playlist_id = p_id).get()
+            rating_id = old_rating.id
+            
+            rating = Rated.objects.get(pk=rating_id)
+            rating_serializer = RatingSerializer(rating, data=rating_data)
+            if rating_serializer.is_valid(): 
+                rating_serializer.save() 
+
+                playlist = Playlist.objects.get(pk=p_id)
+                new_rating = playlist.rating_sum - old_rating.rating + rating.rating
+                print('new_rating' + str(new_rating))
+                print('old_rating' + str(old_rating.rating))
+                print('rating' + str(rating.rating))
+                playlist.rating_sum = new_rating
+                playlist.save()
+
+                return JsonResponse(rating_serializer.data) 
+            else :
+                return JsonResponse(rating_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Rated.DoesNotExist as e: 
+            rating_serializer = RatingSerializer(data=rating_data)
+            if rating_serializer.is_valid():
+                rating_serializer.save()
+
+                p_id = rating_data['playlist']
+                playlist = Playlist.objects.get(pk=p_id)
+                playlist.rating_sum = playlist.rating_sum + rating_data['rating']
+                playlist.rating_number = playlist.rating_number + 1
+                playlist.save()
+
+                return JsonResponse(rating_serializer.data, status=status.HTTP_201_CREATED) 
+            return JsonResponse(rating_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            print(e)
+
+@api_view(['GET'])
+def playlist_rating(request, p_id, u_id):
+    if request.method == 'GET': 
+        try: 
+            rating = Rated.objects.get(user = u_id, playlist = p_id) 
+            rating_serializer = RatingSerializer(rating)
+            return JsonResponse(rating_serializer.data, safe=False) 
+        except User.DoesNotExist: 
+            return JsonResponse({'message': 'The Rating does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+ 

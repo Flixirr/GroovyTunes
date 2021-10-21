@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\groovy",
+    "\\backend\\groovytunes",
+    "\\backend\\groovytunes\\migrations",
+    "\\backend\\users",
+    "\\backend\\users\\migrations"
+  ],
+  "SelectedNode": "\\backend\\groovytunes\\serializer.py",
+  "PreviewInSolutionExplorer": false
+}

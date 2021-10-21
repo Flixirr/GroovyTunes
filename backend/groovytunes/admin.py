@@ -7,6 +7,5 @@ from .models import *
 # Register your models here.
 admin.site.register(User)
 admin.site.register(Playlist)
-admin.site.register(Song)
 admin.site.register(Rated)
 admin.site.register(Comment)

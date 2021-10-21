@@ -27,4 +27,9 @@ urlpatterns = [
     path('api/playlist/<int:id>', views.playlist_details, name='playlist_details'),
     path('api/user', views.user_list, name='user_list'),
     path('api/user/<int:id>', views.user_details, name='user_details'),
+    path('api/comment', views.comment_list, name='comment_list'),
+    path('api/comment/<int:id>', views.comment_details, name='comment_details'),
+    path('api/playlist/comments/<int:p_id>', views.playlist_comments, name='playlist_comments'),
+    path('api/rate_playlist', views.rate_playlist, name='rate_playlist'),
+    path('api/playlist_rating/<int:p_id>/<int:u_id>', views.playlist_rating, name='playlist_rating'),
 ]
