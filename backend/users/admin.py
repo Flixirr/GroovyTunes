@@ -14,7 +14,3 @@ class GroovyUserAdmin(UserAdmin):
 
 
 admin.site.register(GroovyUser, GroovyUserAdmin)
-admin.site.register(Playlist)
-admin.site.register(Song)
-admin.site.register(Rated)
-admin.site.register(Comment)
