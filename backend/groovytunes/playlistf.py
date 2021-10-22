@@ -31,29 +31,18 @@ class PlaylistManager:
         # spotify # possible to add image later with 1 function playlist_cover_image
         self.sp.current_user_unfollow_playlist(playlist_id)
         # database
-        #p = Playlist
-        pass
 
-    def synchroniseSpotifyUserPlaylists(self):
-        # when running page, every time update all playlist form spotify to our database
-        spotify_playlists = self.sp.current_user_playlists(limit=20)
-        user_id = self.sp.current_user()['id']
-        own_playlist = []
-        for playlist in spotify_playlists["items"]:
-            if playlist["owner"]['id'] == user_id:
-                own_playlist.append(playlist)
-        return own_playlist
-        # also for delete and changes done on spotify
-
-    def addToPlaylist(self,playlist_id, song_id):
+    def addToPlaylist(self,playlist, song_id):
         # spotify
+        playlist_id= playlist['spotify_id']
         self.sp.playlist_add_items(playlist_id=playlist_id, items=[song_id])
-        # database
+        # no implementation for database
 
-    def removeFormPlyalist(self, playlist_id, song_id):
+    def removeFormPlyalist(self, playlist, song_id):
         # spotify
+        playlist_id = playlist['spotify_id']
         self.sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=[song_id])
-        # database
+        # no implementation for database
 
 #PlaylistManager(scopes).createNewPlaylist(user= GroovyUser,name='Nowa plejka2', description="***** pis i konfederacje")
 #PlaylistManager(scopes).changePlaylistData(playlist_id="7fc1H5jwSd1AldJIfP6qtd", description="jednak pis i konfe")

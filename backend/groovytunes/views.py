@@ -25,9 +25,6 @@ def search_result(request, query):
     return HttpResponse(data)
 
 
-def playlist_management(request):
-    pass
-
 
 @api_view(['GET', 'POST', 'DELETE'])
 def playlist_list(request):
