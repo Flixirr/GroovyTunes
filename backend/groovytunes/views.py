@@ -75,12 +75,11 @@ def playlist_details(request, id):  # how to implement description in databases
 
     elif request.method == 'DELETE':
         # plus delete on spotify
-        print(playlist.spotify_id)
-        PlaylistManager().deletePlaylist(playlist.spotify_id) # no data that is needed
+        PlaylistManager().deletePlaylist(playlist.spotify_id)
         playlist.delete()
         return JsonResponse({'message': 'Playlist was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
 
-# why is it in groovytunes ursl, not users?
+
 @api_view(['GET', 'POST', 'DELETE'])
 def user_list(request):
     if request.method == 'GET':
