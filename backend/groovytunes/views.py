@@ -244,5 +244,18 @@ def playlist_rating(request, p_id, u_id):
             return JsonResponse(rating_serializer.data, safe=False) 
         except User.DoesNotExist: 
             return JsonResponse({'message': 'The Rating does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def user_playlists(request, u_id):
+    if request.method == 'GET': 
+        try:
+            user = User.objects.get(pk=u_id)
+            playlists = Playlist.objects.filter(user=user).all()
+            playlist_serializer = PlaylistSerializer(playlists, many=True)
+            return JsonResponse(data=playlist_serializer.data, safe=False)
+        except Exception as e:
+            return JsonResponse({'message': 'The User does not exist'}, status=status.HTTP_404_NOT_FOUND)
+     
     
  

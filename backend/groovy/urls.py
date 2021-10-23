@@ -32,4 +32,5 @@ urlpatterns = [
     path('api/playlist/comments/<int:p_id>', views.playlist_comments, name='playlist_comments'),
     path('api/rate_playlist', views.rate_playlist, name='rate_playlist'),
     path('api/playlist_rating/<int:p_id>/<int:u_id>', views.playlist_rating, name='playlist_rating'),
+    path('api/user/playlists/<int:u_id>', views.user_playlists, name='user_playlists'),
 ]
