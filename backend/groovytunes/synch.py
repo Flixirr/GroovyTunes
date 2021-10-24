@@ -25,11 +25,27 @@ def synchroniseSpotifyUserPlaylists():
             spotify.append(playlist)
             print(spotify)
     database = PlaylistSerializer(Playlist.objects.all(), many=True).data
+
+    for playlist in database:
+        for spoti in spotify:
+            if spoti['id'] == playlist['spotify_id']:
+                break
+        pl_id = playlist['id']
+        pl = Playlist.objects.get(pk=pl_id)
+        pl.delete()
+    # add/ playlist form spotify + synchronise
     for spoti in spotify:
         for playlist in database:
             if spoti['id'] == playlist['spotify_id']:
-                break
-            pl_id = playlist['id']
-            pl = Playlist.objects.get(pk=pl_id)
-            pl.delete()
-    # add/ playlist form spotify + synchronise
+                if spoti['description'] != playlist['description'] or spoti['name'] != playlist['name']:
+                    pass # change in database accordingly to spotify
+                    break
+        data = {'user': 1, # what to do here?
+        'name': playlist['name'],
+        'rating_sum': 0,
+        'rating_number': 0,
+        'spotify_id': spoti['id'],
+        'description': spoti['description']}
+        PlaylistSerializer(data=data).save()
+
+
