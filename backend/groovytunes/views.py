@@ -1,18 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from .genius_api import Genius
-from .models import *
-from .serializer import *
-from django.http import HttpResponseRedirect
+from django.http.response import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser 
-from .spotify_api import Spotify
+from rest_framework.parsers import JSONParser
+
+from .genius_api import Genius
 from .playlistf import *
-from .synch import synchroniseSpotifyUserPlaylists
-import requests
+from .serializer import *
+from .spotify_api import Spotify
 
 genius_obj = Genius()
 spotify_obj = Spotify()
@@ -24,7 +18,7 @@ def search(request):
 
 def search_result(request, query):
     data = genius_obj.getData(query)
-    return HttpResponse(data)
+    return JsonResponse(data)
 
 
 
@@ -143,7 +137,7 @@ def user_details(request, id):
     return JsonResponse(results)
 
 @api_view(['GET', 'POST', 'DELETE'])
-def comment_list(request):
+def comment_playlist(request):
     if request.method == 'GET':
         comment = Comment.objects.all()
         comment_serializer = CommentSerializer(comment, many=True)
@@ -208,13 +202,10 @@ def playlist_comments(request, p_id):
 def rate_playlist(request):
     if request.method == 'POST': 
         rating_data = JSONParser().parse(request)
-        rating_serializer = RatingSerializer(data=rating_data)
-        user_id = rating_data['user']
-        playlist_id = rating_data['playlist']
         try: 
             u_id = rating_data['user']
             p_id = rating_data['playlist']
-            old_rating = Rated.objects.filter(user_id = u_id, playlist_id = p_id).get()
+            old_rating = Rated.objects.filter(user_id=u_id, playlist_id=p_id).get()
             rating_id = old_rating.id
             
             rating = Rated.objects.get(pk=rating_id)
@@ -224,9 +215,6 @@ def rate_playlist(request):
 
                 playlist = Playlist.objects.get(pk=p_id)
                 new_rating = playlist.rating_sum - old_rating.rating + rating.rating
-                print('new_rating' + str(new_rating))
-                print('old_rating' + str(old_rating.rating))
-                print('rating' + str(rating.rating))
                 playlist.rating_sum = new_rating
                 playlist.save()
 
@@ -248,7 +236,7 @@ def rate_playlist(request):
                 return JsonResponse(rating_serializer.data, status=status.HTTP_201_CREATED) 
             return JsonResponse(rating_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print(e)
+            return JsonResponse({'message': 'Error occured while giving the rating'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def playlist_rating(request, p_id, u_id):

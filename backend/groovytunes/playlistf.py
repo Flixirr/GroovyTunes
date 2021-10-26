@@ -1,8 +1,8 @@
 # functions for playlist creation
+import os
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-import os
-from django.apps import apps
+
 os.environ['SPOTIPY_CLIENT_ID'] = "e669ed62315040a09ffdb89afa0cf649"
 os.environ['SPOTIPY_CLIENT_SECRET'] = "4283d027252045ec8ec81bc2d796349a"
 os.environ['SPOTIPY_REDIRECT_URI'] = 'http://example.com/'
