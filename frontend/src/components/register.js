@@ -10,7 +10,10 @@ class Register extends Component {
     state = {
         credentials: {
             email: '',
-            password1: '',
+            username: '',
+            first_name: '',
+            last_name: '',
+            password: '',
             password2: ''
         },
         errors: false
@@ -24,19 +27,22 @@ class Register extends Component {
     sendData = event => {
         event.preventDefault();
 
+        let formData = new FormData();
+
+        for(const key in this.state.credentials) {
+            formData.append(key, this.state.credentials[key]);
+        }
+
         fetch(API_AUTH_ENDPOINT, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.credentials)
+            body: formData
         }).then(
             res => res.json()
         ).then(
             data => {
-                if(data.key) {
+                if(data.token) {
                     Cookies.set('token', '');
-                    Cookies.set('token', data.key);
+                    Cookies.set('token', data.token);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
                     this.setState({ credentials: {
@@ -68,8 +74,20 @@ class Register extends Component {
                                 value={this.state.credentials.email}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input className="input-field" type="password" placeholder="Password" name="password1"
-                                value={this.state.credentials.password1}
+                        <input className="input-field" type="text" placeholder="Username" name="username"
+                                value={this.state.credentials.username}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="text" placeholder="First name" name="first_name"
+                                value={this.state.credentials.first_name}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="text" placeholder="Last name" name="last_name"
+                                value={this.state.credentials.last_name}
+                                onChange={this.inputChanged}></input>
+                        <br />
+                        <input className="input-field" type="password" placeholder="Password" name="password"
+                                value={this.state.credentials.password}
                                 onChange={this.inputChanged}></input>
                         <br />
                         <input className="input-field" type="password" placeholder="Confirm password" name="password2"

@@ -12,10 +12,9 @@ function LogoutButtonLogic(props) {
     const logout = event => {
         event.preventDefault();
 
-        fetch('http://127.0.0.1:8000/api/v1/users/auth/logout/', {
+        fetch('http://127.0.0.1:8000/api/users/rest/logout', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Token ${Cookies.get('token')}`
             }
         })
@@ -85,7 +84,7 @@ class Dashboard extends Component {
         document.body.style.overflowX = "hidden";
         document.body.style.overflowY = "auto";
 
-        fetch('http://127.0.0.1:8000/api/v1/users/auth/user', {
+        fetch('http://127.0.0.1:8000/api/users/rest/properties', {
             method: 'GET',
             headers: {
                 Authorization: `Token ${Cookies.get('token')}`
