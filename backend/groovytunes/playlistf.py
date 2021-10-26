@@ -46,7 +46,12 @@ class PlaylistManager:
         self.sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=[song_id])
         # no implementation for database
 
-#PlaylistManager(scopes).createNewPlaylist(user= GroovyUser,name='Nowa plejka2', description="***** pis i konfederacje")
-#PlaylistManager(scopes).changePlaylistData(playlist_id="7fc1H5jwSd1AldJIfP6qtd", description="jednak pis i konfe")
-#PlaylistManager(scopes).deletePlaylist(playlist_id='1aazvT5Hpruab2ui7DkxPA')
-#PlaylistManager(scopes).getSpotifyUserPlaylists()
+    def listofsongs(self, playlist):
+        playlist_id = playlist['spotify_id']
+        songsRawData = self.sp.playlist(playlist_id=playlist_id)['tracks']['items']
+        songsReady = []
+        for song in songsRawData:
+            songsReady.append([song['track']['id'],song['track']['name'],song['track']['artists'][0]['name'],
+                               song['track']['album']['name'], song['track']['album']['release_date']])
+        return songsReady
+
