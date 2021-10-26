@@ -1,18 +1,12 @@
-from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
-from .genius_api import Genius
-from .models import *
-from .serializer import *
-from django.http import HttpResponseRedirect
+from django.http.response import JsonResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.http.response import JsonResponse
-from rest_framework.parsers import JSONParser 
-from .spotify_api import Spotify
+from rest_framework.parsers import JSONParser
+
+from .genius_api import Genius
 from .playlistf import *
-from .synch import synchroniseSpotifyUserPlaylists
-import requests
+from .serializer import *
+from .spotify_api import Spotify
 
 genius_obj = Genius()
 spotify_obj = Spotify()
@@ -24,7 +18,7 @@ def search(request):
 
 def search_result(request, query):
     data = genius_obj.getData(query)
-    return HttpResponse(data)
+    return JsonResponse(data)
 
 
 

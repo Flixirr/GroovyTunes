@@ -1,8 +1,7 @@
+import os
 import spotipy
 from spotipy import SpotifyOAuth
-import os
-from django.db import models
-from models import Playlist
+
 from .serializer import *
 
 os.environ['SPOTIPY_CLIENT_ID'] = "e669ed62315040a09ffdb89afa0cf649"
