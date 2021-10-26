@@ -19,6 +19,7 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     playlist = models.ForeignKey(Playlist, on_delete=models.CASCADE)
     comment_text = models.CharField(max_length=500)
+    creation_date = models.DateTimeField(auto_now_add=True, blank=True)
 
 class Rated(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

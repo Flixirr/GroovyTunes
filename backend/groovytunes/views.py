@@ -137,7 +137,7 @@ def user_details(request, id):
     return JsonResponse(results)
 
 @api_view(['GET', 'POST', 'DELETE'])
-def comment_list(request):
+def comment_playlist(request):
     if request.method == 'GET':
         comment = Comment.objects.all()
         comment_serializer = CommentSerializer(comment, many=True)
@@ -202,13 +202,10 @@ def playlist_comments(request, p_id):
 def rate_playlist(request):
     if request.method == 'POST': 
         rating_data = JSONParser().parse(request)
-        rating_serializer = RatingSerializer(data=rating_data)
-        user_id = rating_data['user']
-        playlist_id = rating_data['playlist']
         try: 
             u_id = rating_data['user']
             p_id = rating_data['playlist']
-            old_rating = Rated.objects.filter(user_id = u_id, playlist_id = p_id).get()
+            old_rating = Rated.objects.filter(user_id=u_id, playlist_id=p_id).get()
             rating_id = old_rating.id
             
             rating = Rated.objects.get(pk=rating_id)
