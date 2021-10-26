@@ -218,9 +218,6 @@ def rate_playlist(request):
 
                 playlist = Playlist.objects.get(pk=p_id)
                 new_rating = playlist.rating_sum - old_rating.rating + rating.rating
-                print('new_rating' + str(new_rating))
-                print('old_rating' + str(old_rating.rating))
-                print('rating' + str(rating.rating))
                 playlist.rating_sum = new_rating
                 playlist.save()
 
@@ -242,7 +239,7 @@ def rate_playlist(request):
                 return JsonResponse(rating_serializer.data, status=status.HTTP_201_CREATED) 
             return JsonResponse(rating_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            print(e)
+            return JsonResponse({'message': 'Error occured while giving the rating'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def playlist_rating(request, p_id, u_id):

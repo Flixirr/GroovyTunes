@@ -166,7 +166,6 @@ def logout_view(request):
     if request.method == 'POST':
         serializer = AccountPropertiesSerializer(account)
         username = serializer.data['username']
-        print(serializer.data.values())
         Token.objects.filter(user=account).delete()
         return Response({f"{username} got logged out"})
 
