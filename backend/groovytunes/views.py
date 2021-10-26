@@ -11,6 +11,7 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser 
 from .spotify_api import Spotify
 from .playlistf import *
+from .synch import synchroniseSpotifyUserPlaylists
 
 genius_obj = Genius()
 spotify_obj = Spotify()
