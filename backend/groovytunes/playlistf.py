@@ -46,7 +46,7 @@ class PlaylistManager:
         self.sp.playlist_remove_all_occurrences_of_items(playlist_id=playlist_id, items=[song_id])
         # no implementation for database
 
-    def listofsongs(self, playlist):
+    def listOfSongs(self, playlist):
         playlist_id = playlist['spotify_id']
         songsRawData = self.sp.playlist(playlist_id=playlist_id)['tracks']['items']
         songsReady = []

@@ -13,6 +13,7 @@ from .spotify_api import Spotify
 from .playlistf import *
 from .synch import synchroniseSpotifyUserPlaylists
 
+
 genius_obj = Genius()
 spotify_obj = Spotify()
 
@@ -140,3 +141,12 @@ def user_details(request, id):
     for spoti, gen in zip(data_spotify, data_genius):
         results['results'].append({**spoti, **gen[0], **gen[1]})
     return JsonResponse(results)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def songs_menagment(request, pl_id,song_id=None):
+    if request.method == 'GET':
+        return PlaylistManager.listOfSongs(playlist=pl_id)
+    if request.method == 'PUT':
+        PlaylistManager.addToPlaylist(playlist=pl_id,song_id=song_id)
+    if request.method == 'DELETE':
+        PlaylistManager.removeFormPlyalist(playlist=pl_id,song_id=song_id)
