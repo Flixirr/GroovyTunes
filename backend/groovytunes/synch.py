@@ -24,7 +24,6 @@ def synchroniseSpotifyUserPlaylists(u_id):
     for playlist in spotify_playlists["items"]:
         if playlist["owner"]['id'] == user_id:
             spotify.append(playlist)
-            print(spotify)
     database = PlaylistSerializer(Playlist.objects.filter(user=user).all(), many=True).data
 
     for playlist in database:

@@ -23,7 +23,9 @@ class PlaylistManager:
         spotify_playlist_id = our_playlist['items'][0]['id']
         return spotify_playlist_id
 
-    def changePlaylistData(self, playlist_id, name, description):
+    def changePlaylistData(self, playlist_id, name=None, description=None):
+        if name == None or description == None:
+            return "Name or description are not valid or not given"
         # spotify and database
         self.sp.playlist_change_details(playlist_id=playlist_id, name=name, description=description)
 
