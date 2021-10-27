@@ -1,5 +1,3 @@
-backend/db.sqlite3
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -24,3 +22,5 @@ frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
 frontend/src/styles/search-styles.css
+
+backend/db.sqlite3
