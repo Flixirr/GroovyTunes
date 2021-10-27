@@ -12,8 +12,8 @@ export function ProfileChangeData(props) {
     const email = profileData.email;
 
     const [username, setUsername] = useState('');
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
+    const [first_name, setFirstName] = useState(profileData.first_name);
+    const [last_name, setLastName] = useState(profileData.last_name);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
@@ -37,7 +37,7 @@ export function ProfileChangeData(props) {
             .then(response => response.json())
             .then(data => {
                 if(data.username || data.first_name || data.last_name) {
-                    setError(data.username[0]);
+                    setError('Username is required');
                     setSuccess('');
                 } else {
                     setSuccess('Data changed successfully, logout and login to refresh.');
