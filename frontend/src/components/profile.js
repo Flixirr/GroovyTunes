@@ -34,6 +34,12 @@ export function Profile(props) {
                             CHANGE DATA
                     </Button>
                 </Link>
+
+                <Link to="/users/data/change/password">
+                    <Button className="profile-button">
+                            CHANGE PASSWORD
+                    </Button>
+                </Link>
             </div>
         );
     } else {

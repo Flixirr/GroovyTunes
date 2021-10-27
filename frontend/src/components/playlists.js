@@ -20,7 +20,7 @@ export function SearchList(props) {
                         <p>Artist: {item[0]['name']}</p> 
                         {item[1].album && <p>Album: {item[1].album.name}</p>} 
                         {item[1].featured_artists.length != 0 && <p>Featured: {item[1].featured_artists.map(e => e.name).join(' ')}</p>} 
-                        {item[1].producer_artists && <p>Producers: {item[1].producer_artists.join(' ')}</p>}
+                        {item[1].album && <p>Album: {item[1].album.name}</p>} release_date
                         <p>Released: {item[1]['release_date']}</p> 
                     </div>
             </div>

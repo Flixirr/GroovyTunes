@@ -3,6 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { SearchList } from './searchList';
 import { Profile } from './profile';
 import { ProfileChangeData } from './profileDataChange';
+import { PasswordChange } from './passwordChange';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 import logo from "../img/logo-white.png";
@@ -148,11 +149,16 @@ class Dashboard extends Component {
                             <SearchList items={this.state.searchResults} />
                         </div>
                     </Route>
+
                     <Route path="/users/me">
                         <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
                     </Route>
 
-                    <Route>
+                    <Route path="/users/data/change/password">
+                        <PasswordChange />
+                    </Route>
+
+                    <Route path="/users/data/change/">
                         <ProfileChangeData profile={this.state.loggedUserCreds} />
                     </Route>
                 </Switch>
