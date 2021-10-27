@@ -50,7 +50,7 @@
     
     background-color: rgba(255,255,255,0.1);
     width: 60vw; 
-    height: 150px;
+    height: 200px;
     margin-bottom: 25px;
 
     color: white;
@@ -58,30 +58,24 @@
     transition: 0.3s;
 }
 
+.search-item p {
+    margin: 0;
+}
+
 .search-item:hover {
 
     background-color: rgba(255,255,255,0.12);
     width: 60vw; 
-    height: 150px;
+    height: 200px;
     margin-bottom: 25px; 
 }
 
 .album-cover {
     background-color: whitesmoke;
-    height: 125px;
-    width: 125px;
-    margin: 0 15px 0 15px;
+    height: 175px;
+    width: 175px;
+    margin: 0 35px 0 15px;
 }
 
-.profile-button {
-    background-color: #D21313;
 
-    border: none;
-    border-radius: 20px;
 
-    height: 3vh;
-    padding: 0 20px 0 20px;
-
-    color: white;
-    font-family: 'Lato', sans-serif;
-}

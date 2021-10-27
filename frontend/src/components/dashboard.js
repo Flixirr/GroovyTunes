@@ -3,19 +3,20 @@ import { Link, Route, Switch } from 'react-router-dom';
 import { SearchList } from './searchList';
 import { Profile } from './profile';
 import { ProfileChangeData } from './profileDataChange';
+import { PasswordChange } from './passwordChange';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faSignInAlt, faSignOutAlt, faMusic } from '@fortawesome/free-solid-svg-icons'
 import logo from "../img/logo-white.png";
 import Cookies from 'js-cookie';
+import { Playlists } from './playlists';
 
 function LogoutButtonLogic(props) {
     const logout = event => {
         event.preventDefault();
 
-        fetch('http://127.0.0.1:8000/api/v1/users/auth/logout/', {
+        fetch('http://127.0.0.1:8000/api/users/rest/logout', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
                 Authorization: `Token ${Cookies.get('token')}`
             }
         })
@@ -51,7 +52,8 @@ class Dashboard extends Component {
             email: '',
             username: '',
             first_name: '',
-            last_name: ''
+            last_name: '',
+            pk: ''
         },
         searchResults: []
     };
@@ -74,7 +76,6 @@ class Dashboard extends Component {
                     -> Featured artists
                     -> Producers
                 */
-                console.log(data)
                 this.setState({ searchResults: data });
                 console.log(this.state.searchResults);
             });
@@ -85,7 +86,7 @@ class Dashboard extends Component {
         document.body.style.overflowX = "hidden";
         document.body.style.overflowY = "auto";
 
-        fetch('http://127.0.0.1:8000/api/v1/users/auth/user', {
+        fetch('http://127.0.0.1:8000/api/users/rest/properties', {
             method: 'GET',
             headers: {
                 Authorization: `Token ${Cookies.get('token')}`
@@ -103,7 +104,8 @@ class Dashboard extends Component {
                                 email: data.email,
                                 username: data.username,
                                 first_name: data.first_name,
-                                last_name: data.last_name
+                                last_name: data.last_name,
+                                pk: data.pk
                             }
                         }
                     );
@@ -128,6 +130,10 @@ class Dashboard extends Component {
                             <FontAwesomeIcon className="navbar-icon text-link" icon={faUser} />
                         </Link>
 
+                        <Link to='/users/me/playlists'>
+                            <FontAwesomeIcon className="navbar-icon text-link" icon={faMusic} />
+                        </Link>
+
                         <LogoutButtonLogic isLoggedIn={this.state.userLoggedIn} />
                     </div>
                 </div>
@@ -150,11 +156,20 @@ class Dashboard extends Component {
                             <SearchList items={this.state.searchResults} />
                         </div>
                     </Route>
+
+                    <Route path="/users/me/playlists">
+                        <Playlists pk={this.state.loggedUserCreds.pk} />
+                    </Route>
+
                     <Route path="/users/me">
                         <Profile profile={this.state.loggedUserCreds} isLoggedIn={this.state.userLoggedIn} />
                     </Route>
 
-                    <Route>
+                    <Route path="/users/data/change/password">
+                        <PasswordChange />
+                    </Route>
+
+                    <Route path="/users/data/change/">
                         <ProfileChangeData profile={this.state.loggedUserCreds} />
                     </Route>
                 </Switch>

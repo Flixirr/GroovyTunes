@@ -34,6 +34,10 @@ function App() {
                 <Dashboard />
               </Route>
 
+              <Route path="/users/data/change/password">
+                <Dashboard />
+              </Route>
+
               <Route path="/main">
                 <Dashboard />
               </Route>

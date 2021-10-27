@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../img/logo-white.png";
 import Cookies from 'js-cookie';
 
-const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/login/";
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/users/rest/login";
 
 class Login extends Component {
 
@@ -23,19 +23,21 @@ class Login extends Component {
     sendData = event => {
         event.preventDefault();
 
+        let formData = new FormData();
+
+        formData.append('username', this.state.credentials.email);
+        formData.append('password', this.state.credentials.password);
+
         fetch(API_AUTH_ENDPOINT, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(this.state.credentials)
+            body: formData
         }).then(
             res => res.json()
         ).then(
             data => {
-                if(data.key) {
+                if(data.token) {
                     Cookies.set('token', '');
-                    Cookies.set('token', data.key);
+                    Cookies.set('token', data.token);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
                     this.setState({
