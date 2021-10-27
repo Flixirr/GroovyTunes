@@ -5,9 +5,10 @@ import { Profile } from './profile';
 import { ProfileChangeData } from './profileDataChange';
 import { PasswordChange } from './passwordChange';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faSignInAlt, faSignOutAlt, faMusic } from '@fortawesome/free-solid-svg-icons'
 import logo from "../img/logo-white.png";
 import Cookies from 'js-cookie';
+import { Playlists } from './playlists';
 
 function LogoutButtonLogic(props) {
     const logout = event => {
@@ -51,7 +52,8 @@ class Dashboard extends Component {
             email: '',
             username: '',
             first_name: '',
-            last_name: ''
+            last_name: '',
+            pk: ''
         },
         searchResults: []
     };
@@ -102,7 +104,8 @@ class Dashboard extends Component {
                                 email: data.email,
                                 username: data.username,
                                 first_name: data.first_name,
-                                last_name: data.last_name
+                                last_name: data.last_name,
+                                pk: data.pk
                             }
                         }
                     );
@@ -127,6 +130,10 @@ class Dashboard extends Component {
                             <FontAwesomeIcon className="navbar-icon text-link" icon={faUser} />
                         </Link>
 
+                        <Link to='/users/me/playlists'>
+                            <FontAwesomeIcon className="navbar-icon text-link" icon={faMusic} />
+                        </Link>
+
                         <LogoutButtonLogic isLoggedIn={this.state.userLoggedIn} />
                     </div>
                 </div>
@@ -148,6 +155,10 @@ class Dashboard extends Component {
                             
                             <SearchList items={this.state.searchResults} />
                         </div>
+                    </Route>
+
+                    <Route path="/users/me/playlists">
+                        <Playlists pk={this.state.loggedUserCreds.pk} />
                     </Route>
 
                     <Route path="/users/me">
