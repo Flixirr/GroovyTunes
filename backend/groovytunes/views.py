@@ -143,10 +143,10 @@ def user_details(request, id):
     return JsonResponse(results)
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def songs_menagment(request, pl_id,song_id=None):
+def songs_menagment(request, pl_id, song_id=None):
     if request.method == 'GET':
-        return PlaylistManager.listOfSongs(playlist=pl_id)
+        return PlaylistManager().listOfSongs(playlist=pl_id)
     if request.method == 'PUT':
-        PlaylistManager.addToPlaylist(playlist=pl_id,song_id=song_id)
+        PlaylistManager().addToPlaylist(playlist=pl_id, song_id=song_id)
     if request.method == 'DELETE':
-        PlaylistManager.removeFormPlyalist(playlist=pl_id,song_id=song_id)
+        PlaylistManager().removeFormPlyalist(playlist=pl_id, song_id=song_id)
