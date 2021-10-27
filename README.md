@@ -72,6 +72,7 @@ Get all Playlists:
 	Return (Example for 2 playlists):
 		[{"id": 1, "name": "coolPlaylist", "rating_sum": 5, "rating_number": 1, "user": 1}, {"id": 2, "name": "coolPlaylist2", "rating_sum": 4, "rating_number": 2, "user": 1}]
 
+
 Get playlist with id = 1:
 	URL = "http://127.0.0.1:8000/api/playlist/1"
 	r = requests.get(url = URL)
@@ -79,6 +80,7 @@ Get playlist with id = 1:
 
 	Return:
 		{'id': 13, 'name': 'cool2', 'rating_sum': 5, 'rating_number': 1, 'user': 1}
+
 
 Post new Playlist:
 	URL = "http://127.0.0.1:8000/api/playlist"
@@ -88,6 +90,7 @@ Post new Playlist:
 			'rating_number':2}
 	r = requests.post(url = URL, json = data)
 
+
 Delete all Playlists:
 	URL = "http://127.0.0.1:8000/api/playlist"
 	r = requests.delete(URL)
@@ -96,6 +99,7 @@ Delete playlist with id = 1:
 	URL = "http://127.0.0.1:8000/api/playlist/1"
 	r = requests.delete(url = URL)
 	
+
 Put playlist at id = 1:
 URL = "http://127.0.0.1:8000/api/playlist/1"
 data = {'user': 1,
@@ -104,7 +108,6 @@ data = {'user': 1,
 		'rating_number':2}
 r = requests.put(url = URL, json = data)
 
-User Examples
 
 Post user:
 
@@ -116,7 +119,37 @@ data = {'firstName': 'Max',
         'password': 'test'}
 r = requests.put(url = URL, json = data)
 
-The other things work like in playlist
+
+Get all playlists for user with id = 1:
+api/user/playlists/1
+
+
+Get playlist rating for user.id = 1 and playlist.id = 2:
+api/playlist_rating/2/1
+
+
+Rate a playlist:
+URL = "http://127.0.0.1:8000/api/rate_playlist"
+data = {"user": 1, "playlist": 4, "rating": 5}
+
+r = requests.post(url = URL, json=data)
+(you can always use a Post request, if the rating is already created it will be changed and if it is not created it will be created)
+
+Get/Delete all comments for playlist with id = 1:
+api/playlist/comments/1
+
+Get/Delete/Post one comment with id = 1:
+api/comment/1
+
+Get/Delete all comments:
+api/comment
+
+Put new comment:
+URL = "http://127.0.0.1:8000/api/comment"
+data = {"user": 1, "playlist": 4, "comment_text": 'a cool text'}
+
+r = requests.put(url = URL, json=data)
+
 
 # New User model:
 

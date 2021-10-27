@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import (
     registration_view,
     ObtainAuthTokenView,
@@ -8,7 +9,6 @@ from .views import (
     ChangePasswordView,
     logout_view,
 )
-from rest_framework.authtoken.views import obtain_auth_token
 
 app_name = 'users'
 
