@@ -73,7 +73,6 @@ class Dashboard extends Component {
                     -> Featured artists
                     -> Producers
                 */
-                console.log(data)
                 this.setState({ searchResults: data });
                 console.log(this.state.searchResults);
             });

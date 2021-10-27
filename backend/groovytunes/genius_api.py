@@ -1,5 +1,5 @@
 import requests
-
+import json
 
 class Genius:
     def __init__(self):
@@ -47,4 +47,4 @@ class Genius:
         songs = self.getSongData()
         for final in range(nr_of_results):
             results.append((artists[final], songs[final]))
-        return results
+        return json.dumps(results)

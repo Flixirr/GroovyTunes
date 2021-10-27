@@ -12,15 +12,17 @@ export function SearchList(props) {
     const renderList = items.map((item) => {
         return (
             <div className="search-item">
-                <div className="album-cover"></div>
-                <div className="search-item-info">
-                    Artist: {item[0][0]} <br />
-                    Song: {item[1][0]} <br />
-                    Released: {item[1][2]} <br />
-                    Featured artists: { [].concat.apply([], item[1][3]).filter((link, index) => {return index%2 === 0}).join(', ') } <br />
-                    Producers: { [].concat.apply([], item[1][4]).filter((link, index) => {return index%2 === 0}).join(', ')} 
-                    <br /><br />
-                </div>
+                    <div >
+                        <img className="album-cover" src={item[1]['photo_song']} />
+                    </div>
+                    <div className="search-item-info">
+                        <p>Title: {item[1]['title']}</p>
+                        <p>Artist: {item[0]['name']}</p> 
+                        {item[1].album && <p>Album: {item[1].album.name}</p>} 
+                        {item[1].featured_artists.length != 0 && <p>Featured: {item[1].featured_artists.map(e => e.name).join(' ')}</p>} 
+                        {item[1].album && <p>Album: {item[1].album.name}</p>} release_date
+                        <p>Released: {item[1]['release_date']}</p> 
+                    </div>
             </div>
         )
     });
