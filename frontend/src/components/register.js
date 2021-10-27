@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from "../img/logo-white.png";
 import Cookies from 'js-cookie';
 
-const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/v1/users/auth/register/";
+const API_AUTH_ENDPOINT = "http://127.0.0.1:8000/api/users/rest/register";
 
 class Register extends Component {
 
@@ -97,7 +97,7 @@ class Register extends Component {
                         {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
                         <input className="input-submit" type='submit' value='REGISTER' />
                     </form>
-                <p class="text-normal">Already have an account? <Link to="/" className="text-link">Go back to login.</Link></p>
+                <p className="text-normal">Already have an account? <Link to="/" className="text-link">Go back to login.</Link></p>
             </div>
         );
     }

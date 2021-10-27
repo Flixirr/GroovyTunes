@@ -76,7 +76,7 @@ class Dashboard extends Component {
                     -> Featured artists
                     -> Producers
                 */
-                this.setState({ searchResults: data });
+                this.setState({ searchResults: data.results });
                 console.log(this.state.searchResults);
             });
     };
@@ -152,8 +152,8 @@ class Dashboard extends Component {
                         </div>
                         
                         <div className="search-results">
-                            
                             <SearchList items={this.state.searchResults} />
+                            
                         </div>
                     </Route>
 
