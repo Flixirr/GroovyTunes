@@ -41,8 +41,8 @@ class Register extends Component {
         ).then(
             data => {
                 if(data.token) {
-                    Cookies.set('token', '');
-                    Cookies.set('token', data.token);
+                    if(Cookies.get('token') === undefined || Cookies.get('token') === '')
+                        Cookies.noConflict().set('token', data.token);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
                     this.setState({ credentials: {
@@ -50,7 +50,6 @@ class Register extends Component {
                         password: '',
                         confirmPassword: ''
                     }});
-                    Cookies.set('token', '');
                     this.setState({errors: true});
                 }
             }
@@ -95,7 +94,7 @@ class Register extends Component {
                                 onChange={this.inputChanged}></input>
                         <br />
                         {this.state.errors && <p style={{ color: "red" }}>Passwords do not match.</p>}
-                        <input className="input-submit" type='submit' value='REGISTER' />
+                        <input className="ui green inverted button btn-centered" type='submit' value='REGISTER' />
                     </form>
                 <p className="text-normal">Already have an account? <Link to="/" className="text-link">Go back to login.</Link></p>
             </div>

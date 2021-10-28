@@ -9,6 +9,8 @@ import { faHome, faUser, faSignInAlt, faSignOutAlt, faMusic } from '@fortawesome
 import logo from "../img/logo-white.png";
 import Cookies from 'js-cookie';
 import { Playlists } from './playlists';
+import { getTokenFromUrl } from './spotifyAuth';
+
 
 function LogoutButtonLogic(props) {
     const logout = event => {
@@ -23,7 +25,7 @@ function LogoutButtonLogic(props) {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                Cookies.set('token', '');
+                Cookies.remove('token');
                 window.location.replace('http://127.0.0.1:3000/');
         });
     };
@@ -31,13 +33,27 @@ function LogoutButtonLogic(props) {
     if(props.isLoggedIn) {
         return (
             <Link onClick={logout.bind(this)}>
-                <FontAwesomeIcon className="navbar-icon text-link" icon={faSignOutAlt} />
+                <div className="icon-animated-group">
+                    <div className="icon-animated">
+                        <FontAwesomeIcon className="text-link" icon={faSignOutAlt} />
+                    </div>
+                    <span className="icon-animated-text">
+                        Logout
+                    </span>
+                </div>
             </Link>
         );
     } else {
         return (
             <Link to='/'>
-                <FontAwesomeIcon className="navbar-icon text-link" icon={faSignInAlt} />
+                <div className="icon-animated-group">
+                    <div className="icon-animated">
+                        <FontAwesomeIcon className="text-link" icon={faSignInAlt} />
+                    </div>
+                    <span className="icon-animated-text">
+                        Login
+                    </span>
+                </div>
             </Link>
         );
     }
@@ -86,6 +102,12 @@ class Dashboard extends Component {
         document.body.style.overflowX = "hidden";
         document.body.style.overflowY = "auto";
 
+        const spotifyTokenData = getTokenFromUrl();
+
+        if(spotifyTokenData.access_token) {
+            Cookies.set('spotifyAuthToken', spotifyTokenData.access_token);
+        }
+
         fetch('http://127.0.0.1:8000/api/users/rest/properties', {
             method: 'GET',
             headers: {
@@ -123,15 +145,36 @@ class Dashboard extends Component {
                 <div className="navbar-wrapper">
                     <div className="navbar">
                         <Link to='/main'>
-                            <FontAwesomeIcon className="navbar-icon text-link" icon={faHome} />
+                            <div className="icon-animated-group">
+                                <div className="icon-animated">
+                                    <FontAwesomeIcon className="text-link" icon={faHome} />
+                                </div>
+                                <span className="icon-animated-text">
+                                    Home page
+                                </span>
+                            </div>
                         </Link>
 
                         <Link to='/users/me'>
-                            <FontAwesomeIcon className="navbar-icon text-link" icon={faUser} />
+                            <div className="icon-animated-group">
+                                <div className="icon-animated">
+                                    <FontAwesomeIcon className="text-link" icon={faUser} />
+                                </div>
+                                <span className="icon-animated-text">
+                                    My profile
+                                </span>
+                            </div>
                         </Link>
 
                         <Link to='/users/me/playlists'>
-                            <FontAwesomeIcon className="navbar-icon text-link" icon={faMusic} />
+                            <div className="icon-animated-group">
+                                <div className="icon-animated">
+                                    <FontAwesomeIcon className="text-link" icon={faMusic} />
+                                </div>
+                                <span className="icon-animated-text">
+                                    Playlists
+                                </span>
+                            </div>
                         </Link>
 
                         <LogoutButtonLogic isLoggedIn={this.state.userLoggedIn} />
@@ -139,6 +182,11 @@ class Dashboard extends Component {
                 </div>
 
                 <Switch>
+                
+                    <Route path="/main/spotify/redirect">
+                        <Playlists pk={this.state.loggedUserCreds.pk} />
+                    </Route>
+
                     <Route path="/main">
                         <div className="search-wrapper">
                             <img style={{ width: '24vh', height: '20vh', marginTop: '10px'}} src={logo} alt="Logo" />

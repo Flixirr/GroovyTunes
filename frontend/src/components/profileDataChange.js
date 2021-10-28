@@ -53,20 +53,23 @@ export function ProfileChangeData(props) {
             <div className="profile-info">
                 <form onSubmit={sendData}>
                     <p>USERNAME</p>
-                        <input type="text" placeholder={profileData.username} className="info-box" 
+                        <input type="text" placeholder={profileData.username} className="input-field"
+                        style={{ fontSize: '1em'}} 
                         onChange={e => setUsername(e.target.value)} />
                     <br />
                     <p>FIRST NAME</p>
-                        <input type="text" placeholder={profileData.first_name} className="info-box" 
+                        <input type="text" placeholder={profileData.first_name} className="input-field"
+                        style={{ fontSize: '1em'}} 
                         onChange={e => setFirstName(e.target.value)} />
                     <br />
                     <p>LAST NAME</p>
-                        <input type="text" placeholder={profileData.last_name} className="info-box" 
+                        <input type="text" placeholder={profileData.last_name} className="input-field"
+                        style={{ fontSize: '1em'}} 
                         onChange={e => setLastName(e.target.value)} />
                     <br />
                     <br />
 
-                    <input className="input-submit" type='submit' value='SUBMIT' />
+                    <input className="ui green inverted button btn-centered" type='submit' value='SUBMIT' />
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {success && <p style={{ color: "green" }}>{success}</p>}

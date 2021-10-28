@@ -36,8 +36,8 @@ class Login extends Component {
         ).then(
             data => {
                 if(data.token) {
-                    Cookies.set('token', '');
-                    Cookies.set('token', data.token);
+                    if(Cookies.get('token') === undefined || Cookies.get('token') === '')
+                        Cookies.set('token', data.token);
                     window.location.replace('http://127.0.0.1:3000/main');
                 } else {
                     this.setState({
@@ -47,7 +47,7 @@ class Login extends Component {
                             password: ''
                         }
                     });
-                    Cookies.set('token', '');
+                    //Cookies.set('token', '');
                     this.setState({errors: true});
                 }
             }
@@ -75,7 +75,7 @@ class Login extends Component {
                                 value={this.state.credentials.password}
                                 onChange={this.inputChanged}></input>
                         <br />
-                        <input className="input-submit" type='submit' value='LOGIN' />
+                        <input className="ui green inverted button btn-centered" type='submit' value='LOGIN' />
                     </form>
                 {this.state.errors && <p style={{ color: "red" }}>Invalid credentials.</p>}
                 <p className="text-normal">Don't have an account yet? <Link to="/register" className="text-link">Register!</Link></p>

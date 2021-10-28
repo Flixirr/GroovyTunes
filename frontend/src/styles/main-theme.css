@@ -72,25 +72,23 @@ p {
     border: none;
     border-radius: 20px;
 
-    padding-left: 3%;
+    background-color: rgba(255, 255, 255, 0.07) !important;
+
+    padding: 2%;
+
+    font-size: 0.6em;
 
     width: 40vw;
     height: 3vh;
+    margin: 15px;
+    
 }
 
-.input-submit {
-    background-color: #D21313;
+.btn-centered {
+    width:40% !important;
 
-    border: none;
-    border-radius: 20px;
-
-    height: 3vh;
-    width:40%;
-    margin-left:30%;
-    margin-right:30%;
-
-    color: white;
-    font-family: 'Lato', sans-serif;
+    margin: 15px 30% 25px 30% !important;
+    
 }
 
 .navbar-wrapper {
@@ -116,12 +114,8 @@ p {
     background: #282828;
     border-radius: 30px;
 
-    padding: 35px 20px 35px 20px;
+    padding: 25px 10px 25px 10px;
     height: 70vh;
 
-    color: white;
-}
-
-.navbar-icon {
-    font-size: 5vh;
+    
 }

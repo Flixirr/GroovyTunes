@@ -52,20 +52,23 @@ export function PasswordChange(props) {
             <div className="profile-info">
                 <form onSubmit={sendData}>
                     <p>OLD PASSWORD</p>
-                        <input type="password" className="info-box" 
+                        <input type="password" className="input-field"
+                        style={{ fontSize: '1em'}}
                         onChange={e => setOldPwd(e.target.value)} />
                     <br />
                     <p>NEW PASSWORD</p>
-                        <input type="password" className="info-box" 
+                        <input type="password" className="input-field"
+                        style={{ fontSize: '1em'}}
                         onChange={e => setNewPwd(e.target.value)} />
                     <br />
                     <p>CONFIRM NEW PASSWORD</p>
-                        <input type="password" className="info-box" 
+                        <input type="password" className="input-field"
+                        style={{ fontSize: '1em'}}
                         onChange={e => confirmNewPwd(e.target.value)} />
                     <br />
                     <br />
 
-                    <input className="input-submit" type='submit' value='SUBMIT' />
+                    <input className="ui green inverted button btn-centered" type='submit' value='SUBMIT' />
 
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {success && <p style={{ color: "green" }}>{success}</p>}

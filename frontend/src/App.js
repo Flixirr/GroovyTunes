@@ -7,6 +7,8 @@ import Dashboard from './components/dashboard';
 import "./styles/profile-styles.css";
 import "./styles/main-theme.css";
 import "./styles/search-styles.css";
+import "./styles/animated-styles.css";
+import 'semantic-ui-css/semantic.min.css';
 
 import {
   BrowserRouter as Router,
@@ -25,6 +27,10 @@ function App() {
         <Router>
           
             <Switch>
+
+            <Route path="/main/spotify/redirect">
+                <Dashboard />
+              </Route>
               
               <Route path="/users/me">
                 <Dashboard />

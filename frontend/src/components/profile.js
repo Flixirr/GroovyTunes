@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "semantic-ui-react";
+import { Button, Segment } from "semantic-ui-react";
+
+import Cookies from 'js-cookie';
 
 import logo from "../img/blank-profile-picture-973460_1280.png";
+
+import { authUrl } from "./spotifyAuth";
 
 export function Profile(props) {
 
@@ -15,31 +19,45 @@ export function Profile(props) {
                 <br />
                 <div className="profile-info">
                     <p>USERNAME</p>
-                        <input type="text" value={profileData.username} className="info-box" readOnly />
+                        <input type="text" value={profileData.username} className="input-field"
+                        style={{ fontSize: '1em'}} readOnly />
                     <br />
                     <p>E-MAIL </p>
-                        <input type="text" value={profileData.email} className="info-box" readOnly />
+                        <input type="text" value={profileData.email} className="input-field"
+                        style={{ fontSize: '1em'}} readOnly />
                     <br />
                     <p>FIRST NAME (optional)</p>
-                        <input type="text" value={profileData.first_name} className="info-box" readOnly />
+                        <input type="text" value={profileData.first_name} className="input-field"
+                        style={{ fontSize: '1em'}} readOnly />
                     <br />
                     <p>LAST NAME (optional)</p>
-                        <input type="text" value={profileData.last_name} className="info-box" readOnly />
+                        <input type="text" value={profileData.last_name} className="input-field"
+                        style={{ fontSize: '1em'}} readOnly />
                     <br />
                     <br />
                 </div>
 
-                <Link to="/users/data/change">
-                    <Button className="profile-button">
+                <Segment inverted>
+                    <Link to="/users/data/change">
+                        <Button inverted color="green">
                             CHANGE DATA
-                    </Button>
-                </Link>
+                        </Button>
+                    </Link>
 
-                <Link to="/users/data/change/password">
-                    <Button className="profile-button">
+                    <Link to="/users/data/change/password">
+                        <Button inverted color="green">
                             CHANGE PASSWORD
-                    </Button>
-                </Link>
+                        </Button>
+                    </Link>
+
+                    <a href={authUrl}>
+                        <Button inverted color="green">
+                            SIGN IN WITH SPOTIFY
+                        </Button>
+                    </a>
+                </Segment>
+
+                
             </div>
         );
     } else {

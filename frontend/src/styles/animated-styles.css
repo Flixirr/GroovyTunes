@@ -1,0 +1,43 @@
+.icon-animated-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-animated {
+    display: table-cell;
+    text-align: center;
+
+    font-size: 4vh;
+    width: 60px;
+    height: 60px;
+    padding-top: 20%;
+    border-radius: 10px;
+    color: white;
+    transition: 0.3s;
+
+    background-color: rgba(0, 0, 0, 0.0);
+}
+
+.icon-animated-text {
+    display: none;
+    transition: 0.3s;
+}
+
+.icon-animated:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.icon-animated:hover + .icon-animated-text{
+    display: inline;
+    position: absolute;
+    white-space: nowrap;
+    margin-left: 170px;
+    color: white;
+    border-radius: 10px;
+
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 7px;
+}
+
