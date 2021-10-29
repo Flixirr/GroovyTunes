@@ -11,11 +11,25 @@ import { authUrl } from "./spotifyAuth";
 export function Profile(props) {
 
     const profileData = props.profile;
+    
+    const profilePicture = () => {
+        
+        if (props.profile.spotify_image) {
+            if (props.profile.spotify_image.length > 0) {
+                return props.profile.spotify_image[0].url;
+            }
+            else {
+                return logo;
+            }
+        } else {
+            return logo;
+        }
+    }
 
     if(props.isLoggedIn) {
         return (
             <div className="profile-layout">
-                <img className="profile-pic" src={logo} alt="Profile picture" />
+                <img className="profile-pic" src={profilePicture()} alt="Profile picture" />
                 <br />
                 <div className="profile-info">
                     <p>USERNAME</p>

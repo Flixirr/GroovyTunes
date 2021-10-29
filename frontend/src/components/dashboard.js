@@ -11,6 +11,10 @@ import Cookies from 'js-cookie';
 import { Playlists } from './playlists';
 import { getTokenFromUrl } from './spotifyAuth';
 
+import { PlaylistDetails } from './playlistDetailed';
+
+import SpotifyWebApi from 'spotify-web-api-js';
+
 
 function LogoutButtonLogic(props) {
     const logout = event => {
@@ -26,6 +30,9 @@ function LogoutButtonLogic(props) {
             .then(data => {
                 console.log(data);
                 Cookies.remove('token');
+
+                Cookies.remove('spotifyAuthToken');
+                
                 window.location.replace('http://127.0.0.1:3000/');
         });
     };
@@ -69,9 +76,13 @@ class Dashboard extends Component {
             username: '',
             first_name: '',
             last_name: '',
-            pk: ''
+            pk: '',
+            spotify_image: ''
         },
-        searchResults: []
+        searchResults: [],
+        userPlaylists: {
+            items: []
+        }
     };
 
 
@@ -102,12 +113,46 @@ class Dashboard extends Component {
         document.body.style.overflowX = "hidden";
         document.body.style.overflowY = "auto";
 
+        //SET SPOTIFY TOKEN
+        let timeNow = new Date();
+
         const spotifyTokenData = getTokenFromUrl();
 
         if(spotifyTokenData.access_token) {
-            Cookies.set('spotifyAuthToken', spotifyTokenData.access_token);
+            Cookies.set('spotifyAuthToken', spotifyTokenData.access_token, 
+            { expires: timeNow.setSeconds(timeNow.getSeconds() + spotifyTokenData.expires_in) });
+            
         }
 
+        //SPOTIFY API LOGIC
+        const spotifyApi = new SpotifyWebApi();
+
+        if (spotifyTokenData.access_token !== undefined || spotifyTokenData.access_token !== '') {
+
+            spotifyApi.setAccessToken(spotifyTokenData.access_token);
+
+            spotifyApi.getMe().then((user) => {
+                this.setState({
+                    loggedUserCreds: {
+                        spotify_image: user.images
+                    }
+                });
+                console.log(this.state);
+            });
+
+            spotifyApi.getUserPlaylists().then(
+                (data) => {
+                    this.setState({
+                        userPlaylists: data
+                    });
+                },
+                (err) => {
+                    console.error(err);
+                }
+            )
+        }
+
+        //GET USER DATA FROM BACKEND SERVER
         fetch('http://127.0.0.1:8000/api/users/rest/properties', {
             method: 'GET',
             headers: {
@@ -116,8 +161,6 @@ class Dashboard extends Component {
         }) 
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                
                 if(data.email)
                     this.setState(
                         {
@@ -127,7 +170,8 @@ class Dashboard extends Component {
                                 username: data.username,
                                 first_name: data.first_name,
                                 last_name: data.last_name,
-                                pk: data.pk
+                                pk: data.pk,
+                                spotify_image: this.state.loggedUserCreds.spotify_image
                             }
                         }
                     );
@@ -205,8 +249,12 @@ class Dashboard extends Component {
                         </div>
                     </Route>
 
+                    <Route path="/playlist/:id">
+                        <PlaylistDetails />
+                    </Route>
+
                     <Route path="/users/me/playlists">
-                        <Playlists pk={this.state.loggedUserCreds.pk} />
+                        <Playlists pk={this.state.loggedUserCreds.pk} playlists={this.state.userPlaylists} />
                     </Route>
 
                     <Route path="/users/me">

@@ -8,6 +8,7 @@ import "./styles/profile-styles.css";
 import "./styles/main-theme.css";
 import "./styles/search-styles.css";
 import "./styles/animated-styles.css";
+import "./styles/playlist-styles.css";
 import 'semantic-ui-css/semantic.min.css';
 
 import {
@@ -28,7 +29,10 @@ function App() {
           
             <Switch>
 
-            <Route path="/main/spotify/redirect">
+              <Route path="/playlist/:id">
+                <Dashboard />
+              </Route>
+             <Route path="/main/spotify/redirect">
                 <Dashboard />
               </Route>
               

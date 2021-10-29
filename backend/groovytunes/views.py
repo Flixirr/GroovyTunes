@@ -6,7 +6,6 @@ from rest_framework.parsers import JSONParser
 from .genius_api import Genius
 from .playlistf import *
 from .serializer import *
-from .spotify_api import Spotify
 
 from .spotify_api import Spotify
 
@@ -51,7 +50,6 @@ def playlist_list(request):
     elif request.method == 'POST':
         playlist_data = JSONParser().parse(request)
         # create spotify playlist
-        playlist_data['spotify_id'] = PlaylistManager().createNewPlaylist(data=playlist_data)
         playlist_serializer = PlaylistSerializer(data=playlist_data)
         if playlist_serializer.is_valid():
             playlist_serializer.save()
